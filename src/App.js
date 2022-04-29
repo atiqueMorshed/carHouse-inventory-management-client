@@ -7,7 +7,6 @@ const App = () => {
   return (
     <div className="App font-poppins dark:bg-darkGray-500 dark:text-white">
       <Header />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blogs" element={<Blogs />} />
