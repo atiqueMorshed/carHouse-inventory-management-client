@@ -1,14 +1,15 @@
 import React from 'react';
 import Title from '../../Shared/Title';
+import Banner from '../Banner/Banner';
 
 const Home = () => {
   return (
-    <>
+    <div>
       <Title title="Home" />
-      <div className="mt-20 text-center">
-        <h1>Home</h1>
+      <div>
+        <Banner />
       </div>
-    </>
+    </div>
   );
 };
 

@@ -40,7 +40,7 @@ const MenuItems = () => {
           </svg>
           <p>Blogs</p>
         </CustomLink>
-        <CustomLink to="/blog">
+        {/* <CustomLink to="/blog">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -73,7 +73,7 @@ const MenuItems = () => {
             />
           </svg>
           <p>User</p>
-        </CustomLink>
+        </CustomLink> */}
         <div className="mt-2 lg:mt-0 mb-8 lg:mb-0">
           <DarkMode />
         </div>
