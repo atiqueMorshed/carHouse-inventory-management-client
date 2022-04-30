@@ -5,7 +5,7 @@ import CustomLink from '../CustomLink/CustomLink';
 const MenuItems = () => {
   return (
     <div className="flex flex-col justify-center items-center w-11/12 mx-auto">
-      <div className="flex flex-col lg:flex-row justify-center items-start lg:items-center">
+      <div className="flex flex-col lg:flex-row justify-center items-stretch lg:items-center">
         <CustomLink to="/">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -39,6 +39,23 @@ const MenuItems = () => {
             />
           </svg>
           <p>Blogs</p>
+        </CustomLink>
+        <CustomLink to="/login">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <p>Login</p>
         </CustomLink>
         {/* <CustomLink to="/blog">
           <svg
@@ -74,7 +91,7 @@ const MenuItems = () => {
           </svg>
           <p>User</p>
         </CustomLink> */}
-        <div className="mt-2 lg:mt-0 mb-8 lg:mb-0">
+        <div className="mt-4 lg:mt-0 mb-8 lg:mb-0 lg:ml-16 lg:border-l lg:pl-6">
           <DarkMode />
         </div>
       </div>
