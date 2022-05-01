@@ -82,14 +82,6 @@ const Header = () => {
     }
   }
 
-  const upd = () => {
-    toast.update(toastEmailNotVerified, {
-      render: 'XXX',
-      type: toast.TYPE.INFO,
-      autoClose: 5000,
-    });
-  };
-
   if (error?.message) {
     toast.update(toastEmailNotVerified, {
       render: error.message,
@@ -121,7 +113,6 @@ const Header = () => {
           <MenuItems user={user} />
         </div>
       )}
-      <button onClick={upd}>UPD</button>
 
       <ToastContainer
         position="top-right"

@@ -6,6 +6,7 @@ import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
 import auth from '../../../firebase.init';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
+import SocialLogin from '../SocialLogin/SocialLogin';
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const Login = () => {
       {/* Background Image */}
       <div className='relative flex justify-center items-center w-full h-[calc(100vh-73px)] object-cover bg-[url("https://i.ibb.co/LRnRVv7/bg-login-transparent.png")] bg-cover bg-no-repeat'>
         {/* Login Box */}
-        <div className="flex justify-center items-center md:absolute left-28 top-60 bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-20 w-11/12 max-w-[430px] py-10 rounded mx-auto">
+        <div className="flex justify-center items-center md:absolute left-28 top-30 bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-20 w-11/12 max-w-[430px] py-10 rounded mx-auto">
           <form
             className="relative"
             onSubmit={handleSubmit(onSubmit)}
@@ -208,6 +209,7 @@ const Login = () => {
                 </svg>
               </Link>
             </div>
+            <SocialLogin from={from} />
           </form>
         </div>
       </div>

@@ -51,7 +51,7 @@ const MenuItems = ({ user }) => {
         {user?.uid ? (
           <div
             onClick={() => signOut(auth)}
-            className="flex justify-center items-center gap-2 py-3 my-1 px-3 hover:text-gray-300 cursor-pointer"
+            className="flex justify-center items-center gap-2 py-3 my-1 px-3 hover:text-gray-400 cursor-pointer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +67,7 @@ const MenuItems = ({ user }) => {
                 d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <p className="hover:text-gray-300">Logout</p>
+            <p className="hover:text-gray-400">Logout</p>
           </div>
         ) : (
           <CustomLink to="/login">

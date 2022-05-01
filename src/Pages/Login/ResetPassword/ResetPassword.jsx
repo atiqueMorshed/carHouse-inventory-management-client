@@ -3,6 +3,10 @@ import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
+import auth from '../../../firebase.init';
+import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
+import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
+import { toast, ToastContainer } from 'react-toastify';
 
 const ResetPassword = () => {
   const {
@@ -12,15 +16,37 @@ const ResetPassword = () => {
     formState: { errors, isSubmitSuccessful },
   } = useForm();
 
+  const [sendPasswordResetEmail, sending, error] =
+    useSendPasswordResetEmail(auth);
+
   useEffect(() => {
     reset();
   }, [isSubmitSuccessful, reset]);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const { email } = data;
+
+    if (email) {
+      try {
+        await sendPasswordResetEmail(email);
+        toast.success('Success! Check your email.', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
   };
 
-  return (
+  return sending ? (
+    <LoadingSpinner />
+  ) : (
     <div className="w-full h-[calc(100vh-73px)] bg-gray-400 dark:bg-darkGray-500">
       {/* Background Image */}
       <div className='relative flex justify-center items-center w-full h-[calc(100vh-73px)] object-cover bg-[url("https://i.ibb.co/LRnRVv7/bg-login-transparent.png")] bg-cover bg-no-repeat'>
@@ -66,6 +92,7 @@ const ResetPassword = () => {
 
             {/* Reset Button */}
             <CustomSubmitButton>Reset</CustomSubmitButton>
+            {error?.message && <ErrorMessage error={errors.message} />}
 
             {/* To Login */}
             <div className="text-sm">
@@ -118,6 +145,17 @@ const ResetPassword = () => {
           </form>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

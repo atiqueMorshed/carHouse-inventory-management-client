@@ -10,6 +10,7 @@ import auth from '../../../firebase.init';
 import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 const Register = () => {
   const {
@@ -258,6 +259,7 @@ const Register = () => {
                 </svg>
               </Link>
             </div>
+            <SocialLogin from="/" />
           </form>
         </div>
       </div>
