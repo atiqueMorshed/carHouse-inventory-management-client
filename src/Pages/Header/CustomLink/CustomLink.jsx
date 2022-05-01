@@ -9,7 +9,7 @@ const CustomLink = ({ children, to, ...props }) => {
     <Link
       className={`${
         match ? 'shadow-lg bg-primaryBlue-500 rounded-md text-white' : ''
-      } flex justify-center items-center gap-2 py-3 my-1 px-3`}
+      } flex justify-center items-center gap-2 py-3 my-1 px-3 hover:text-gray-300`}
       to={to}
     >
       {children}

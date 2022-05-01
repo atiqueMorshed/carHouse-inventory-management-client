@@ -25,8 +25,8 @@ const Register = () => {
   const [
     createUserWithEmailAndPassword,
     emailAndPasswordUser,
-    EmailAndPasswordLoading,
-    EmailAndPasswordError,
+    emailAndPasswordLoading,
+    emailAndPasswordError,
   ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
 
   const [updateProfile, updating, UpdateError] = useUpdateProfile(auth);
@@ -53,7 +53,7 @@ const Register = () => {
     return <Navigate to="/" />;
   }
 
-  return EmailAndPasswordLoading || updating ? (
+  return emailAndPasswordLoading || updating ? (
     <LoadingSpinner />
   ) : (
     <div className="w-full h-[calc(100vh-73px)] bg-gray-400 dark:bg-darkGray-500">
@@ -227,8 +227,8 @@ const Register = () => {
             {/* Register Button */}
             <CustomSubmitButton>Register</CustomSubmitButton>
 
-            {EmailAndPasswordError?.message && (
-              <ErrorMessage error={EmailAndPasswordError.message} />
+            {emailAndPasswordError?.message && (
+              <ErrorMessage error={emailAndPasswordError.message} />
             )}
             {UpdateError?.message && (
               <ErrorMessage error={UpdateError.message} />

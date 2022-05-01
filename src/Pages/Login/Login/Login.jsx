@@ -1,9 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
+import auth from '../../../firebase.init';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 const Login = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [submitError, setSubmitError] = useState('');
+
+  let from = location?.state?.from?.pathname || '/';
+
   const {
     handleSubmit,
     register,
@@ -11,15 +20,36 @@ const Login = () => {
     formState: { errors, isSubmitSuccessful },
   } = useForm();
 
+  const [
+    signInWithEmailAndPassword,
+    emailAndPasswordUser,
+    emailAndPasswordLoading,
+    emailAndPasswordError,
+  ] = useSignInWithEmailAndPassword(auth);
+
   useEffect(() => {
     reset();
   }, [isSubmitSuccessful, reset]);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const { email, password } = data;
+
+    if (email && password) {
+      try {
+        await signInWithEmailAndPassword(email, password);
+      } catch (error) {
+        setSubmitError(error?.message);
+      }
+    }
   };
 
-  return (
+  if (emailAndPasswordUser) {
+    navigate(from, { replace: true });
+  }
+
+  return emailAndPasswordLoading ? (
+    <LoadingSpinner />
+  ) : (
     <div className="w-full h-[calc(100vh-73px)] bg-gray-400 dark:bg-darkGray-500">
       {/* Background Image */}
       <div className='relative flex justify-center items-center w-full h-[calc(100vh-73px)] object-cover bg-[url("https://i.ibb.co/LRnRVv7/bg-login-transparent.png")] bg-cover bg-no-repeat'>
@@ -125,6 +155,11 @@ const Login = () => {
             </div>
             {/* Login Button */}
             <CustomSubmitButton>Login</CustomSubmitButton>
+
+            {emailAndPasswordError?.message && (
+              <ErrorMessage error={emailAndPasswordError.message} />
+            )}
+            {submitError && <ErrorMessage error={submitError} />}
 
             {/* To Register  */}
             <div className="text-sm my-5">
