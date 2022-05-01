@@ -1,15 +1,102 @@
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  useAuthState,
+  useSendEmailVerification,
+} from 'react-firebase-hooks/auth';
+import { ToastContainer, toast } from 'react-toastify';
 import auth from '../../../firebase.init';
+
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import MenuItems from '../MenuItems/MenuItems';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Header = () => {
+  const toastEmailNotVerified = useRef(null);
+  const toastVerificationSendingError = useRef(null);
+
   const [toggleMenu, setToggleMenu] = useState();
   const [user, loading, error] = useAuthState(auth);
+
+  const [sendEmailVerification, sending, sendingError] =
+    useSendEmailVerification(auth);
+
+  const verificationSent = () => {
+    toast.update(toastEmailNotVerified.current, {
+      render: (
+        <div className="flex justify-center items-center gap-2 text-red-500">
+          Email not verified.{' '}
+          <div className="text-primaryBlue-500">Sending...</div>
+        </div>
+      ),
+      type: toast.TYPE.INFO,
+      autoClose: 5000,
+      hideProgressBar: false,
+      progress: undefined,
+    });
+  };
+
+  if (user && !user?.emailVerified) {
+    if (!toast.isActive(toastEmailNotVerified.current)) {
+      toastEmailNotVerified.current = toast.warn(
+        <div className="flex justify-center items-center gap-2 text-red-500">
+          Email not verified.{' '}
+          <div
+            onClick={() =>
+              sendEmailVerification().then(() => verificationSent())
+            }
+            className="underline cursor-pointer hover:text-red-700"
+          >
+            Resend email
+          </div>
+        </div>,
+        {
+          position: 'top-right',
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
+    }
+  }
+
+  if (sendingError?.message) {
+    if (!toast.isActive(toastVerificationSendingError.current)) {
+      toastVerificationSendingError.current = toast.error(
+        sendingError.message,
+        {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
+    }
+  }
+
+  const upd = () => {
+    toast.update(toastEmailNotVerified, {
+      render: 'XXX',
+      type: toast.TYPE.INFO,
+      autoClose: 5000,
+    });
+  };
+
+  if (error?.message) {
+    toast.update(toastEmailNotVerified, {
+      render: error.message,
+      type: toast.TYPE.INFO,
+      autoClose: 5000,
+    });
+  }
 
   return loading ? (
     <LoadingSpinner />
@@ -34,6 +121,17 @@ const Header = () => {
           <MenuItems user={user} />
         </div>
       )}
+      <button onClick={upd}>UPD</button>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+      />
     </div>
   );
 };

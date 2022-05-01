@@ -48,7 +48,7 @@ const MenuItems = ({ user }) => {
           <p>Protected</p>
         </CustomLink>
 
-        {user ? (
+        {user?.uid ? (
           <div
             onClick={() => signOut(auth)}
             className="flex justify-center items-center gap-2 py-3 my-1 px-3 hover:text-gray-300 cursor-pointer"
