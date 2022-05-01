@@ -68,7 +68,7 @@ const ResetPassword = () => {
             <CustomSubmitButton>Reset</CustomSubmitButton>
 
             {/* To Login */}
-            <p className="text-sm">
+            <div className="text-sm">
               <Link
                 className="flex items-center font-medium hover:underline hover:text-gray-700 hover:dark:text-gray-300 transition-all duration-150"
                 to="/login"
@@ -90,10 +90,10 @@ const ResetPassword = () => {
 
                 <p>Back to login</p>
               </Link>
-            </p>
+            </div>
 
             {/* To Register  */}
-            <p className="text-sm my-5">
+            <div className="text-sm my-5">
               <Link
                 className="flex items-center font-medium hover:underline hover:text-gray-700 hover:dark:text-gray-300 transition-all duration-150"
                 to="/register"
@@ -114,7 +114,7 @@ const ResetPassword = () => {
                   />
                 </svg>
               </Link>
-            </p>
+            </div>
           </form>
         </div>
       </div>

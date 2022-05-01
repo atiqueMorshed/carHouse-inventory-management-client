@@ -1,8 +1,15 @@
-import React, { useEffect } from 'react';
-import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
+import React, { useEffect, useState } from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import {
+  useCreateUserWithEmailAndPassword,
+  useUpdateProfile,
+} from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+
+import auth from '../../../firebase.init';
+import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
+import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 
 const Register = () => {
   const {
@@ -13,15 +20,42 @@ const Register = () => {
     watch,
   } = useForm();
 
+  const [submitError, setSubmitError] = useState('');
+
+  const [
+    createUserWithEmailAndPassword,
+    emailAndPasswordUser,
+    EmailAndPasswordLoading,
+    EmailAndPasswordError,
+  ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
+
+  const [updateProfile, updating, UpdateError] = useUpdateProfile(auth);
+
+  // Reset input fields on success
   useEffect(() => {
     reset();
   }, [isSubmitSuccessful, reset]);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const { email, password, name } = data;
+
+    if (email && password && name) {
+      try {
+        await createUserWithEmailAndPassword(email, password);
+        await updateProfile({ displayName: name });
+      } catch (error) {
+        setSubmitError(error?.message);
+      }
+    }
   };
 
-  return (
+  if (emailAndPasswordUser) {
+    return <Navigate to="/" />;
+  }
+
+  return EmailAndPasswordLoading || updating ? (
+    <LoadingSpinner />
+  ) : (
     <div className="w-full h-[calc(100vh-73px)] bg-gray-400 dark:bg-darkGray-500">
       {/* Background Image */}
       <div className='relative flex justify-center items-center w-full h-[calc(100vh-73px)] object-cover bg-[url("https://i.ibb.co/LRnRVv7/bg-login-transparent.png")] bg-cover bg-no-repeat'>
@@ -193,8 +227,16 @@ const Register = () => {
             {/* Register Button */}
             <CustomSubmitButton>Register</CustomSubmitButton>
 
+            {EmailAndPasswordError?.message && (
+              <ErrorMessage error={EmailAndPasswordError.message} />
+            )}
+            {UpdateError?.message && (
+              <ErrorMessage error={UpdateError.message} />
+            )}
+            {submitError && <ErrorMessage error={submitError} />}
+
             {/* To Login */}
-            <p className="text-sm">
+            <div className="text-sm mt-8">
               <Link
                 className="flex items-center font-semibold hover:underline hover:text-gray-700 hover:dark:text-gray-300 transition-all duration-150"
                 to="/login"
@@ -215,7 +257,7 @@ const Register = () => {
                   />
                 </svg>
               </Link>
-            </p>
+            </div>
           </form>
         </div>
       </div>

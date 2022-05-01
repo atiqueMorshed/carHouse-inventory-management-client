@@ -127,7 +127,7 @@ const Login = () => {
             <CustomSubmitButton>Login</CustomSubmitButton>
 
             {/* To Register  */}
-            <p className="text-sm my-5">
+            <div className="text-sm my-5">
               <Link
                 className="flex items-center font-medium hover:underline hover:text-gray-700 hover:dark:text-gray-300 transition-all duration-150"
                 to="/register"
@@ -148,10 +148,10 @@ const Login = () => {
                 </svg>
                 <p>Back to register</p>
               </Link>
-            </p>
+            </div>
 
             {/* To Reset */}
-            <p className="text-sm my-5">
+            <div className="text-sm my-5">
               <Link
                 className="flex items-center font-semibold hover:underline hover:text-gray-700 hover:dark:text-gray-300 transition-all duration-150"
                 to="/reset"
@@ -172,7 +172,7 @@ const Login = () => {
                   />
                 </svg>
               </Link>
-            </p>
+            </div>
           </form>
         </div>
       </div>
