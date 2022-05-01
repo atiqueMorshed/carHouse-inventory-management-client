@@ -34,7 +34,7 @@ const Banner = () => {
           </p>
           <Link
             to="/inventory"
-            className="py-2 px-4 bg-primaryBlue-500 rounded text-black text-sm"
+            className="py-2 px-4 bg-primaryBlue-500 rounded text-white text-sm"
           >
             Manage Now!
           </Link>
@@ -51,7 +51,7 @@ const Banner = () => {
           <p className="font-medium text-primaryBlue-500 mt-2 mb-6">AudiChan</p>
           <Link
             to="/inventory"
-            className="py-2 px-4 bg-primaryBlue-500 rounded text-black text-sm"
+            className="py-2 px-4 bg-primaryBlue-500 rounded text-white text-sm"
           >
             Manage Now!
           </Link>

@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 const DarkMode = () => {
   const [theme, setTheme] = useState(
-    JSON.parse(localStorage.getItem('7empest'))?.mode || 'dark'
+    JSON.parse(localStorage.getItem('carhouse-theme'))?.mode || 'dark'
   );
 
   useEffect(() => {
-    localStorage.setItem('7empest', JSON.stringify({ mode: theme }));
+    localStorage.setItem('carhouse-theme', JSON.stringify({ mode: theme }));
 
     const bodyClass = document.body.classList;
     theme === 'dark' ? bodyClass.add('dark') : bodyClass.remove('dark');

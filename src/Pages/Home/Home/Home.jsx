@@ -1,5 +1,5 @@
 import React from 'react';
-import Title from '../../Shared/Title';
+import Title from '../../Shared/Title/Title';
 import Banner from '../Banner/Banner';
 
 const Home = () => {

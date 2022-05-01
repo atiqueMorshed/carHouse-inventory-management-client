@@ -3,6 +3,8 @@ import Blogs from './Pages/Blogs/Blogs';
 import Header from './Pages/Header/Header/Header';
 import Home from './Pages/Home/Home/Home';
 import Login from './Pages/Login/Login/Login';
+import Register from './Pages/Login/Register/Register';
+import ResetPassword from './Pages/Login/ResetPassword/ResetPassword';
 
 const App = () => {
   return (
@@ -12,6 +14,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/blog" element={<Blogs />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/reset" element={<ResetPassword />} />
       </Routes>
     </div>
   );

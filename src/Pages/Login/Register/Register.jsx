@@ -3,12 +3,14 @@ import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
-const Login = () => {
+
+const Register = () => {
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors, isSubmitSuccessful },
+    watch,
   } = useForm();
 
   useEffect(() => {
@@ -24,13 +26,47 @@ const Login = () => {
       {/* Background Image */}
       <div className='relative flex justify-center items-center w-full h-[calc(100vh-73px)] object-cover bg-[url("https://i.ibb.co/LRnRVv7/bg-login-transparent.png")] bg-cover bg-no-repeat'>
         {/* Login Box */}
-        <div className="flex justify-center items-center md:absolute left-28 top-60 bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-20 w-11/12 max-w-[430px] py-10 rounded mx-auto">
+        <div className="flex justify-center items-center md:absolute left-28 top-50 bg-white dark:bg-black bg-opacity-70 dark:bg-opacity-20 w-11/12 max-w-[430px] py-10 rounded mx-auto">
           <form
             className="relative"
             onSubmit={handleSubmit(onSubmit)}
             autoComplete="off"
           >
-            <h1 className="text-2xl font-bold pb-6">Login Now!</h1>
+            <h1 className="text-2xl font-bold pb-6">Register Now!</h1>
+
+            {/* Name Field */}
+            <div className="relative mb-8">
+              <input
+                name="name"
+                type="name"
+                placeholder="XXXXX"
+                className="peer form-input-style-1"
+                {...register('name', {
+                  required: 'Required.',
+                  pattern: {
+                    value: /^[a-zA-Z ]+$/,
+                    message: 'Invalid',
+                  },
+                  minLength: {
+                    value: 4,
+                    message: 'Atleast 4 characters.',
+                  },
+                  validate: (val) => {
+                    if (val.startsWith(' ') || val.endsWith(' ')) {
+                      return 'Cannot start or end with spaces.';
+                    }
+                  },
+                })}
+              />
+
+              <label htmlFor="name" className="form-label-style-1">
+                <p>Name</p>
+              </label>
+
+              {errors?.name?.message && (
+                <ErrorMessage error={errors.name.message} />
+              )}
+            </div>
 
             {/* Email Field */}
             <div className="relative mb-8">
@@ -48,6 +84,7 @@ const Login = () => {
                   },
                   validate: (val) => {
                     if (val.startsWith(' ') || val.endsWith(' ')) {
+                      console.log(val);
                       return 'Cannot start or end with spaces.';
                     }
                   },
@@ -123,40 +160,46 @@ const Login = () => {
                 <ErrorMessage error={errors.password.message} />
               )}
             </div>
-            {/* Login Button */}
-            <CustomSubmitButton>Login</CustomSubmitButton>
 
-            {/* To Register  */}
-            <p className="text-sm my-5">
-              <Link
-                className="flex items-center font-medium hover:underline hover:text-gray-700 hover:dark:text-gray-300 transition-all duration-150"
-                to="/register"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M11 17l-5-5m0 0l5-5m-5 5h12"
-                  />
-                </svg>
-                <p>Back to register</p>
-              </Link>
-            </p>
+            {/* Confirm password Field */}
+            <div className="relative mb-8">
+              <input
+                name="confirmPassword"
+                type="password"
+                placeholder="XXXXX"
+                className="peer form-input-style-1"
+                {...register('confirmPassword', {
+                  required: 'Required.',
 
-            {/* To Reset */}
-            <p className="text-sm my-5">
+                  validate: (val) => {
+                    if (watch('password') !== val) {
+                      return 'Your passwords do no match';
+                    }
+                    if (val.startsWith(' ') || val.endsWith(' ')) {
+                      return 'Cannot start or end with spaces.';
+                    }
+                  },
+                })}
+              />
+
+              <label htmlFor="confirmPassword" className="form-label-style-1">
+                <p>Confirm Password</p>
+              </label>
+              {errors?.confirmPassword?.message && (
+                <ErrorMessage error={errors.confirmPassword.message} />
+              )}
+            </div>
+
+            {/* Register Button */}
+            <CustomSubmitButton>Register</CustomSubmitButton>
+
+            {/* To Login */}
+            <p className="text-sm">
               <Link
                 className="flex items-center font-semibold hover:underline hover:text-gray-700 hover:dark:text-gray-300 transition-all duration-150"
-                to="/reset"
+                to="/login"
               >
-                <p>Go to reset password</p>
+                <p>Go to login</p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5"
@@ -180,4 +223,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

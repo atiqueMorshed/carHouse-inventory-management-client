@@ -5,3 +5,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Extended Styles */
+
+@layer components {
+  .form-input-style-1 {
+    @apply px-3 pt-7 pb-3 w-[250px] md:w-[300px] text-sm shadow bg-white bg-opacity-20 rounded-xl placeholder-transparent focus:border-none focus:outline-none;
+  }
+  .form-label-style-1 {
+    @apply flex gap-1 justify-center items-center absolute left-3 top-2 uppercase text-xs pointer-events-none peer-placeholder-shown:top-5 peer-placeholder-shown:text-sm peer-placeholder-shown:capitalize peer-focus:top-2 peer-focus:uppercase peer-focus:text-sm transition-all duration-200 ease-in;
+  }
+  .button-style-1 {
+    @apply py-3 my-8 border-none rounded-full bg-primaryBlue-500 hover:bg-primaryBlue-600 transition-all duration-150 text-white text-center block w-[130px];
+  }
+}
