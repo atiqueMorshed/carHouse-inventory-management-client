@@ -95,7 +95,7 @@ const ResetPassword = () => {
             {error?.message && <ErrorMessage error={errors.message} />}
 
             {/* To Login */}
-            <div className="text-sm">
+            <div className="text-sm pt-5">
               <Link
                 className="flex items-center font-medium hover:underline hover:text-gray-700 hover:dark:text-gray-300 transition-all duration-150"
                 to="/login"

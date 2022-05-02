@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
-import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
-import auth from '../../../firebase.init';
+import { useForm } from 'react-hook-form';
+import { useQuery } from 'react-query';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+
+import auth from '../../../firebase.init';
+import { getToken } from '../../../Hooks/getToken';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
+import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
+import { signOut } from 'firebase/auth';
+
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
   const [submitError, setSubmitError] = useState('');
 
   let from = location?.state?.from?.pathname || '/';
@@ -28,6 +34,11 @@ const Login = () => {
     emailAndPasswordError,
   ] = useSignInWithEmailAndPassword(auth);
 
+  const { isLoading, data, error } = useQuery(
+    ['token', emailAndPasswordUser],
+    getToken
+  );
+
   useEffect(() => {
     reset();
   }, [isSubmitSuccessful, reset]);
@@ -44,11 +55,15 @@ const Login = () => {
     }
   };
 
-  if (emailAndPasswordUser) {
+  if (data?.accessToken) {
     navigate(from, { replace: true });
   }
 
-  return emailAndPasswordLoading ? (
+  if (error) {
+    signOut(auth);
+  }
+
+  return emailAndPasswordLoading || isLoading ? (
     <LoadingSpinner />
   ) : (
     <div className="w-full h-[calc(100vh-73px)] bg-gray-400 dark:bg-darkGray-500">
@@ -161,6 +176,7 @@ const Login = () => {
               <ErrorMessage error={emailAndPasswordError.message} />
             )}
             {submitError && <ErrorMessage error={submitError} />}
+            {error && <ErrorMessage error={error.message} />}
 
             {/* To Register  */}
             <div className="text-sm my-5">

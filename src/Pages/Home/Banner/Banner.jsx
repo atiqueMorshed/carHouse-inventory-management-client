@@ -24,7 +24,7 @@ const Banner = () => {
       <div className="relative">
         <img
           className="w-screen h-[80vh] object-cover"
-          src="https://i.ibb.co/710PdzZ/mclaren-765lt-slider.png"
+          src="https://i.ibb.co/HGZm4jd/mclaren-765lt.jpg"
           alt=""
         />
         <div className="absolute bottom-16 left-[10%] py-6 px-4 bg-gray-100 dark:bg-darkGray-500 rounded shadow-lg">

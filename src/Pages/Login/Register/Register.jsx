@@ -11,6 +11,9 @@ import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import { useQuery } from 'react-query';
+import { getToken } from '../../../Hooks/getToken';
+import { signOut } from 'firebase/auth';
 
 const Register = () => {
   const {
@@ -31,7 +34,10 @@ const Register = () => {
   ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
 
   const [updateProfile, updating, UpdateError] = useUpdateProfile(auth);
-
+  const { isLoading, data, error } = useQuery(
+    ['token', emailAndPasswordUser],
+    getToken
+  );
   // Reset input fields on success
   useEffect(() => {
     reset();
@@ -50,11 +56,15 @@ const Register = () => {
     }
   };
 
-  if (emailAndPasswordUser) {
+  if (data?.accessToken) {
     return <Navigate to="/" />;
   }
 
-  return emailAndPasswordLoading || updating ? (
+  if (error) {
+    signOut(auth);
+  }
+
+  return emailAndPasswordLoading || updating || isLoading ? (
     <LoadingSpinner />
   ) : (
     <div className="w-full h-[calc(100vh-73px)] bg-gray-400 dark:bg-darkGray-500">
@@ -235,6 +245,7 @@ const Register = () => {
               <ErrorMessage error={UpdateError.message} />
             )}
             {submitError && <ErrorMessage error={submitError} />}
+            {error && <ErrorMessage error={error.message} />}
 
             {/* To Login */}
             <div className="text-sm mt-8">

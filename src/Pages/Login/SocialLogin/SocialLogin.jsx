@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import {
@@ -9,9 +9,14 @@ import {
 import SocialButton from '../SocialButton/SocialButton';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
+import { useQuery } from 'react-query';
+import { getToken } from '../../../Hooks/getToken';
+import { signOut } from 'firebase/auth';
 
 const SocialLogin = ({ from }) => {
   const navigate = useNavigate();
+
+  const [user, setUser] = useState({});
 
   const [signInWithFacebook, facebookUser, facebookLoading, facebookError] =
     useSignInWithFacebook(auth);
@@ -19,11 +24,22 @@ const SocialLogin = ({ from }) => {
   const [signInWithGoogle, googleUser, googleLoading, googleError] =
     useSignInWithGoogle(auth);
 
-  if (googleUser || facebookUser) {
+  const { isLoading, data, error } = useQuery(['token', user], getToken);
+
+  useEffect(() => {
+    if (googleUser) setUser(googleUser);
+    else setUser(facebookUser);
+  }, [googleUser, facebookUser]);
+
+  if (data?.accessToken) {
     navigate(from, { replace: true });
   }
 
-  return facebookLoading || googleLoading ? (
+  if (error) {
+    signOut(auth);
+  }
+
+  return facebookLoading || googleLoading || isLoading ? (
     <LoadingSpinner notFullHeight={true} />
   ) : (
     <>
@@ -45,6 +61,7 @@ const SocialLogin = ({ from }) => {
         {facebookError?.message && (
           <ErrorMessage error={`Facebook: ${facebookError?.message}`} />
         )}
+        {error && <ErrorMessage error={error.message} />}
       </div>
     </>
   );
