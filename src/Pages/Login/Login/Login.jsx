@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 
 import auth from '../../../firebase.init';
-import { getToken } from '../../../Hooks/getToken';
+import { getToken } from '../../../api/getToken';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';

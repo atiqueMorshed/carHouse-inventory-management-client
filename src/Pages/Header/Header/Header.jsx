@@ -19,10 +19,10 @@ const Header = () => {
 
   const [toggleMenu, setToggleMenu] = useState();
   const [user, loading, error] = useAuthState(auth);
-
   const [sendEmailVerification, sending, sendingError] =
     useSendEmailVerification(auth);
 
+  // Shows toast if resend verification email is successful.
   const verificationSent = () => {
     toast.update(toastEmailNotVerified.current, {
       render: (
@@ -38,6 +38,7 @@ const Header = () => {
     });
   };
 
+  // Shows unique and one toast if logged in but email is not verified.
   if (user && !user?.emailVerified) {
     if (!toast.isActive(toastEmailNotVerified.current)) {
       toastEmailNotVerified.current = toast.warn(

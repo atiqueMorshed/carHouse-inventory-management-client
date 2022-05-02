@@ -12,7 +12,7 @@ import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import { useQuery } from 'react-query';
-import { getToken } from '../../../Hooks/getToken';
+import { getToken } from '../../../api/getToken';
 import { signOut } from 'firebase/auth';
 
 const Register = () => {
@@ -129,7 +129,6 @@ const Register = () => {
                   },
                   validate: (val) => {
                     if (val.startsWith(' ') || val.endsWith(' ')) {
-                      console.log(val);
                       return 'Cannot start or end with spaces.';
                     }
                   },

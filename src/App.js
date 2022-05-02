@@ -9,6 +9,7 @@ import Login from './Pages/Login/Login/Login';
 import Register from './Pages/Login/Register/Register';
 import ResetPassword from './Pages/Login/ResetPassword/ResetPassword';
 import TestProtected from './Pages/Shared/TestProtected/TestProtected';
+import AddCar from './Pages/AddCar/AddCar';
 
 const queryClient = new QueryClient();
 const App = () => {
@@ -27,6 +28,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <TestProtected />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/addCar"
+            element={
+              <RequireAuth>
+                <AddCar />
               </RequireAuth>
             }
           />

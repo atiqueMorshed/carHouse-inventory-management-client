@@ -10,7 +10,7 @@ import SocialButton from '../SocialButton/SocialButton';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 import { useQuery } from 'react-query';
-import { getToken } from '../../../Hooks/getToken';
+import { getToken } from '../../../api/getToken';
 import { signOut } from 'firebase/auth';
 
 const SocialLogin = ({ from }) => {
