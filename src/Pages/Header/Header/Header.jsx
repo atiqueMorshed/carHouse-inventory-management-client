@@ -21,22 +21,6 @@ const Header = () => {
   const [sendEmailVerification, sending, sendingError] =
     useSendEmailVerification(auth);
 
-  // // Shows toast if resend verification email is successful.
-  // const verificationSent = () => {
-  //   toast.update(toastEmailNotVerified.current, {
-  //     render: () => (
-  //       <div className="flex justify-center items-center gap-2 text-red-500">
-  //         Email not verified.{' '}
-  //         <div className="text-primaryBlue-500">Sending...</div>
-  //       </div>
-  //     ),
-  //     containerId: 'AutoCloseEnabled',
-  //     type: toast.TYPE.INFO,
-  //     autoClose: 5000,
-  //     progress: undefined,
-  //   });
-  // };
-
   // Shows unique and one toast if logged in but email is not verified.
   if (user && !user?.emailVerified) {
     if (!toast.isActive(toastEmailNotVerified.current)) {
