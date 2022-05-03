@@ -1,6 +1,5 @@
 import { signOut } from 'firebase/auth';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import DarkMode from '../../DarkMode/DarkMode';
 import CustomLink from '../CustomLink/CustomLink';
