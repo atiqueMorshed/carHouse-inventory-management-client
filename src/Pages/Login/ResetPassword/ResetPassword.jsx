@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -6,9 +6,12 @@ import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
 import auth from '../../../firebase.init';
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const ResetPassword = () => {
+  const toastSuccess = useRef(null);
+  const toastFailure = useRef(null);
+
   const {
     handleSubmit,
     register,
@@ -23,23 +26,37 @@ const ResetPassword = () => {
     reset();
   }, [isSubmitSuccessful, reset]);
 
+  if (sending && !error) {
+    if (!toast.isActive(toastSuccess.current)) {
+      toastSuccess.current = toast.info('Sending verification email.', {
+        containerId: 'AutoCloseEnabled',
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
+  }
+
+  useEffect(() => {
+    if (error?.message) {
+      toast.dismiss(toastSuccess.current);
+      if (!toast.isActive(toastFailure.current)) {
+        toastFailure.current = toast.error(error.message, {
+          containerId: 'AutoCloseEnabled',
+          autoClose: 5000,
+          progress: undefined,
+        });
+      }
+    }
+  }, [error]);
+
   const onSubmit = async (data) => {
     const { email } = data;
 
     if (email) {
       try {
         await sendPasswordResetEmail(email);
-        toast.success('Success! Check your email.', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
       } catch (error) {
-        console.log(error.message);
+        console.log('ER');
       }
     }
   };
@@ -92,7 +109,7 @@ const ResetPassword = () => {
 
             {/* Reset Button */}
             <CustomSubmitButton>Reset</CustomSubmitButton>
-            {error?.message && <ErrorMessage error={errors.message} />}
+            {/* {error?.message && <ErrorMessage error={errors.message} />} */}
 
             {/* To Login */}
             <div className="text-sm pt-5">
@@ -145,17 +162,6 @@ const ResetPassword = () => {
           </form>
         </div>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 };

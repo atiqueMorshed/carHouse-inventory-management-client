@@ -6,13 +6,14 @@ const addCar = async (carData) => {
     const response = await axiosAuthBearer.post('/api/addCar', {
       carData,
     });
-    return response?.data;
+    return response.data;
   } catch (error) {
+    console.log('ERROR IN ADDCAR: ', error?.message);
     throw new Error(
       `Submit unsuccessful. ${
         error?.response?.data?.message
           ? error.response.data.message
-          : error.message
+          : error?.message
       }`
     );
   }

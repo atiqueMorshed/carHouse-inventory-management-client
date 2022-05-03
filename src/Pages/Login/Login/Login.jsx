@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
@@ -10,10 +10,15 @@ import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
 import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 import { signOut } from 'firebase/auth';
 import { useGetToken } from '../../../Hooks/useGetToken';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const toastGetTokenError = useRef(null);
+  const toastSubmitError = useRef(null);
+  const toastEmailAndPasswordError = useRef(null);
 
   const [submitError, setSubmitError] = useState('');
   const [user, setUser] = useState();
@@ -39,27 +44,60 @@ const Login = () => {
     reset();
   }, [isSubmitSuccessful, reset]);
 
+  // Error Toasts
+  useEffect(() => {
+    if (!toast.isActive(toastSubmitError.current) && submitError) {
+      toastSubmitError.current = toast.error(submitError, {
+        containerId: 'AutoCloseEnabled',
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
+  }, [submitError]);
+
+  useEffect(() => {
+    if (
+      !toast.isActive(toastEmailAndPasswordError.current) &&
+      emailAndPasswordError?.message
+    ) {
+      toastEmailAndPasswordError.current = toast.error(
+        emailAndPasswordError.message,
+        {
+          containerId: 'AutoCloseEnabled',
+          autoClose: 5000,
+          progress: undefined,
+        }
+      );
+    }
+  }, [emailAndPasswordError]);
+
   const onSuccess = (data) => {
-    console.log('JWT', data);
-    navigate(from, { replace: true });
+    if (data) navigate(from, { replace: true });
   };
 
   const onError = (error) => {
-    console.log(error);
+    if (!toast.isActive(toastGetTokenError.current) && error?.message) {
+      toastGetTokenError.current = toast.error(error.message, {
+        containerId: 'AutoCloseEnabled',
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
     signOut(auth);
   };
 
-  const { isLoading, error, isFetching, refetch } = useGetToken({
+  const { isLoading, isFetching, refetch } = useGetToken({
     user,
     onSuccess,
     onError,
   });
 
+  // Create minified user object
   useEffect(() => {
     if (emailAndPasswordUser?.user?.uid)
       setUser({
         email: emailAndPasswordUser?.user?.email,
-        uid: emailAndPasswordUser?.user?.uid,
+        uid: emailAndPasswordUser.user.uid,
       });
   }, [emailAndPasswordUser]);
 
@@ -193,11 +231,11 @@ const Login = () => {
             {/* Login Button */}
             <CustomSubmitButton>Login</CustomSubmitButton>
 
-            {emailAndPasswordError?.message && (
+            {/* {emailAndPasswordError?.message && (
               <ErrorMessage error={emailAndPasswordError.message} />
-            )}
-            {submitError && <ErrorMessage error={submitError} />}
-            {error?.message && <ErrorMessage error={error.message} />}
+            )} */}
+            {/* {submitError && <ErrorMessage error={submitError} />}
+            {error?.message && <ErrorMessage error={error.message} />} */}
 
             {/* To Register  */}
             <div className="text-sm my-5">

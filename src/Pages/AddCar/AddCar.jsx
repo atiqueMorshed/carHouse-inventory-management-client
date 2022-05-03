@@ -31,10 +31,8 @@ const AddCar = () => {
   useEffect(() => {
     if (submitError) {
       if (!toast.isActive(toastSubmitError.current)) {
-        console.log(submitError);
         toastSubmitError.current = toast.error(submitError, {
           containerId: 'AutoCloseEnabled',
-          pauseOnFocusLoss: false,
           autoClose: 5000,
           progress: undefined,
         });
@@ -57,7 +55,6 @@ const AddCar = () => {
   // Shows unique and one error toast message if car is not added.
   const onError = () => {
     if (!toast.isActive(toastAddCarError.current)) {
-      console.log(error);
       toastAddCarError.current = toast.error(error?.message, {
         containerId: 'AutoCloseEnabled',
         pauseOnFocusLoss: false,
@@ -378,15 +375,6 @@ const AddCar = () => {
           </form>
         </div>
       </div>
-      {/* <ToastContainer
-        position="top-right"
-        autoClose={true}
-        newestOnTop={false}
-        closeOnClick={true}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-      /> */}
     </div>
   );
 };

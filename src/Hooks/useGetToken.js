@@ -2,7 +2,6 @@ import { useQuery } from 'react-query';
 import axios from '../api/AxiosBaseUrl'; // axios with the baseURL
 
 const getToken = async ({ queryKey }) => {
-  console.log(queryKey);
   const email = queryKey[1]?.email;
   const uid = queryKey[1]?.uid;
   if (email && uid) {

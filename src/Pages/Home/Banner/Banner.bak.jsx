@@ -6,6 +6,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
 
+import './Banner.css';
+
 const Banner = () => {
   var settings = {
     dots: true,
@@ -23,7 +25,7 @@ const Banner = () => {
     <Slider {...settings}>
       <div className="relative">
         <img
-          className="w-screen h-[80vh] object-cover"
+          className="h-[80vh] w-screen object-cover"
           src="https://i.ibb.co/HGZm4jd/mclaren-765lt.jpg"
           alt=""
         />
@@ -42,7 +44,7 @@ const Banner = () => {
       </div>
       <div className="relative">
         <img
-          className="w-screen h-[80vh] object-cover"
+          className="h-[80vh] w-screen object-cover"
           src="https://i.ibb.co/VpQT4RP/audi-skysphere-slider.png"
           alt=""
         />

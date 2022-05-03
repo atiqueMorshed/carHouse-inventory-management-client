@@ -4,14 +4,13 @@ import {
   useAuthState,
   useSendEmailVerification,
 } from 'react-firebase-hooks/auth';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import auth from '../../../firebase.init';
 
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import MenuItems from '../MenuItems/MenuItems';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import 'react-toastify/dist/ReactToastify.css';
 
 const Header = () => {
   const toastEmailNotVerified = useRef(null);
@@ -22,21 +21,21 @@ const Header = () => {
   const [sendEmailVerification, sending, sendingError] =
     useSendEmailVerification(auth);
 
-  // Shows toast if resend verification email is successful.
-  const verificationSent = () => {
-    toast.update(toastEmailNotVerified.current, {
-      render: (
-        <div className="flex justify-center items-center gap-2 text-red-500">
-          Email not verified.{' '}
-          <div className="text-primaryBlue-500">Sending...</div>
-        </div>
-      ),
-      type: toast.TYPE.INFO,
-      autoClose: 5000,
-      hideProgressBar: false,
-      progress: undefined,
-    });
-  };
+  // // Shows toast if resend verification email is successful.
+  // const verificationSent = () => {
+  //   toast.update(toastEmailNotVerified.current, {
+  //     render: () => (
+  //       <div className="flex justify-center items-center gap-2 text-red-500">
+  //         Email not verified.{' '}
+  //         <div className="text-primaryBlue-500">Sending...</div>
+  //       </div>
+  //     ),
+  //     containerId: 'AutoCloseEnabled',
+  //     type: toast.TYPE.INFO,
+  //     autoClose: 5000,
+  //     progress: undefined,
+  //   });
+  // };
 
   // Shows unique and one toast if logged in but email is not verified.
   if (user && !user?.emailVerified) {
@@ -45,16 +44,14 @@ const Header = () => {
         <div className="flex justify-center items-center gap-2 text-red-500">
           Email not verified.{' '}
           <div
-            onClick={() =>
-              sendEmailVerification().then(() => verificationSent())
-            }
+            onClick={() => sendEmailVerification()}
             className="underline cursor-pointer hover:text-red-700"
           >
             Resend email
           </div>
         </div>,
         {
-          position: 'top-right',
+          containerId: 'AutoCloseEnabled',
           autoClose: false,
           hideProgressBar: true,
           closeOnClick: false,
@@ -71,6 +68,7 @@ const Header = () => {
       toastVerificationSendingError.current = toast.error(
         sendingError.message,
         {
+          containerId: 'AutoCloseEnabled',
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: false,
@@ -86,12 +84,14 @@ const Header = () => {
   if (error?.message) {
     toast.update(toastEmailNotVerified, {
       render: error.message,
+      containerId: 'AutoCloseEnabled',
       type: toast.TYPE.INFO,
       autoClose: 5000,
+      progress: undefined,
     });
   }
 
-  return loading ? (
+  return loading || sending ? (
     <LoadingSpinner />
   ) : (
     <div className="border-b dark:border-primaryBlue-500">
@@ -114,16 +114,6 @@ const Header = () => {
           <MenuItems user={user} />
         </div>
       )}
-
-      <ToastContainer
-        position="top-right"
-        autoClose={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-      />
     </div>
   );
 };

@@ -1,19 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import {
   useSignInWithFacebook,
   useSignInWithGoogle,
 } from 'react-firebase-hooks/auth';
+import { signOut } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
+import { useGetToken } from '../../../Hooks/useGetToken';
 import SocialButton from '../SocialButton/SocialButton';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
-import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
-import { signOut } from 'firebase/auth';
-import { useGetToken } from '../../../Hooks/useGetToken';
 
 const SocialLogin = ({ from }) => {
   const navigate = useNavigate();
+
+  const toastGetTokenError = useRef(null);
+  const toastFacebookError = useRef(null);
+  const toastGoogleError = useRef(null);
 
   const [user, setUser] = useState();
 
@@ -36,17 +40,43 @@ const SocialLogin = ({ from }) => {
       });
   }, [googleUser, facebookUser]);
 
+  // Error Toasts
+  useEffect(() => {
+    if (facebookError?.message && !toast.isActive(toastFacebookError.current)) {
+      toastFacebookError.current = toast.error(facebookError.message, {
+        containerId: 'AutoCloseEnabled',
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
+  }, [facebookError]);
+
+  useEffect(() => {
+    if (googleError?.message && !toast.isActive(toastGoogleError.current)) {
+      toastGoogleError.current = toast.error(googleError.message, {
+        containerId: 'AutoCloseEnabled',
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
+  }, [googleError]);
+
   const onSuccess = (data) => {
-    console.log('JWT', data);
-    navigate(from, { replace: true });
+    if (data) navigate(from, { replace: true });
   };
 
   const onError = (error) => {
-    console.log(error);
+    if (error?.message && !toast.isActive(toastGetTokenError.current)) {
+      toastGetTokenError.current = toast.error(error.message, {
+        containerId: 'AutoCloseEnabled',
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
     signOut(auth);
   };
 
-  const { isLoading, error, isFetching, refetch } = useGetToken({
+  const { isLoading, isFetching, refetch } = useGetToken({
     user,
     onSuccess,
     onError,
@@ -55,7 +85,6 @@ const SocialLogin = ({ from }) => {
   // Triggers the useGetToken hook to generate the jwt token
   useEffect(() => {
     if (user?.uid) {
-      console.log('REFETCHING');
       refetch();
     }
   }, [user, refetch]);
@@ -78,7 +107,7 @@ const SocialLogin = ({ from }) => {
 
         <SocialButton handleSignIn={async () => await signInWithFacebook()} />
       </div>
-      <div className="w-[250px] text-center pt-2">
+      {/* <div className="w-[250px] text-center pt-2">
         {googleError?.message && (
           <ErrorMessage error={`Google: ${googleError?.message}`} />
         )}
@@ -86,7 +115,7 @@ const SocialLogin = ({ from }) => {
           <ErrorMessage error={`Facebook: ${facebookError?.message}`} />
         )}
         {error && <ErrorMessage error={error.message} />}
-      </div>
+      </div> */}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   useCreateUserWithEmailAndPassword,
@@ -13,9 +13,17 @@ import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import { signOut } from 'firebase/auth';
 import { useGetToken } from '../../../Hooks/useGetToken';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const navigate = useNavigate();
+
+  const toastGetTokenError = useRef(null);
+  const toastSubmitError = useRef(null);
+  const toastEmailAndPasswordError = useRef(null);
+  const toastProfileUpdateError = useRef(null);
+
+  const [user, setUser] = useState();
 
   const {
     handleSubmit,
@@ -38,17 +46,22 @@ const Register = () => {
 
   // Gets JWT and adds to localhost
   const onSuccess = (data) => {
-    console.log('JWT', data);
     navigate('/', { replace: true });
   };
 
   const onError = (error) => {
-    console.log(error);
+    if (error?.message && !toast.isActive(toastGetTokenError.current)) {
+      toastGetTokenError.current = toast.error(error.message, {
+        containerId: 'AutoCloseEnabled',
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
     signOut(auth);
   };
 
-  const { isLoading, error, isFetching, refetch } = useGetToken({
-    user: emailAndPasswordUser,
+  const { isLoading, isFetching, refetch } = useGetToken({
+    user,
     onSuccess,
     onError,
   });
@@ -58,6 +71,60 @@ const Register = () => {
     reset();
   }, [isSubmitSuccessful, reset]);
 
+  // Create minified user object
+  useEffect(() => {
+    if (emailAndPasswordUser?.user?.uid)
+      setUser({
+        email: emailAndPasswordUser?.user?.email,
+        uid: emailAndPasswordUser.user.uid,
+      });
+  }, [emailAndPasswordUser]);
+
+  // Triggers the useGetToken hook to generate the jwt token
+  useEffect(() => {
+    if (user?.uid) refetch();
+  }, [user, refetch]);
+
+  // Error Toasts
+  useEffect(() => {
+    if (submitError && !toast.isActive(toastSubmitError.current)) {
+      toastSubmitError.current = toast.error(submitError, {
+        containerId: 'AutoCloseEnabled',
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
+  }, [submitError]);
+
+  useEffect(() => {
+    if (
+      UpdateError?.message &&
+      !toast.isActive(toastProfileUpdateError.current)
+    ) {
+      toastProfileUpdateError.current = toast.error('Error updating profile.', {
+        containerId: 'AutoCloseEnabled',
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
+  }, [UpdateError]);
+
+  useEffect(() => {
+    if (
+      emailAndPasswordError?.message &&
+      !toast.isActive(toastEmailAndPasswordError.current)
+    ) {
+      toastEmailAndPasswordError.current = toast.error(
+        emailAndPasswordError.message,
+        {
+          containerId: 'AutoCloseEnabled',
+          autoClose: 5000,
+          progress: undefined,
+        }
+      );
+    }
+  }, [emailAndPasswordError]);
+
   const onSubmit = async (data) => {
     const { email, password, name } = data;
 
@@ -65,9 +132,6 @@ const Register = () => {
       try {
         await createUserWithEmailAndPassword(email, password);
         await updateProfile({ displayName: name });
-
-        // Triggers the useGetToken hook to generate the jwt token
-        if (emailAndPasswordUser) refetch();
       } catch (error) {
         setSubmitError(error?.message);
       }
@@ -247,6 +311,7 @@ const Register = () => {
             {/* Register Button */}
             <CustomSubmitButton>Register</CustomSubmitButton>
 
+            {/* 
             {emailAndPasswordError?.message && (
               <ErrorMessage error={emailAndPasswordError.message} />
             )}
@@ -254,7 +319,8 @@ const Register = () => {
               <ErrorMessage error={UpdateError.message} />
             )}
             {submitError && <ErrorMessage error={submitError} />}
-            {error && <ErrorMessage error={error.message} />}
+            {error && <ErrorMessage error={error.message} />} 
+            */}
 
             {/* To Login */}
             <div className="text-sm mt-8">

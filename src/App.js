@@ -25,7 +25,7 @@ const App = () => {
       <ErrorBoundary
         FallbackComponent={ErrorFallback}
         onError={(error) => {
-          console.log(error.message);
+          console.log('ERROR BOUNDARY: ', error.message);
         }}
         onReset={() => {
           // reset the state of your app so the error doesn't happen again
