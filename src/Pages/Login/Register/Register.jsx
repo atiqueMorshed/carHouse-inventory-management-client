@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import {
   useCreateUserWithEmailAndPassword,
   useUpdateProfile,
@@ -11,11 +11,12 @@ import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import SocialLogin from '../SocialLogin/SocialLogin';
-import { useQuery } from 'react-query';
-import { getToken } from '../../../api/getToken';
 import { signOut } from 'firebase/auth';
+import { useGetToken } from '../../../Hooks/useGetToken';
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const {
     handleSubmit,
     register,
@@ -34,10 +35,24 @@ const Register = () => {
   ] = useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
 
   const [updateProfile, updating, UpdateError] = useUpdateProfile(auth);
-  const { isLoading, data, error } = useQuery(
-    ['token', emailAndPasswordUser],
-    getToken
-  );
+
+  // Gets JWT and adds to localhost
+  const onSuccess = (data) => {
+    console.log('JWT', data);
+    navigate('/', { replace: true });
+  };
+
+  const onError = (error) => {
+    console.log(error);
+    signOut(auth);
+  };
+
+  const { isLoading, error, isFetching, refetch } = useGetToken({
+    user: emailAndPasswordUser,
+    onSuccess,
+    onError,
+  });
+
   // Reset input fields on success
   useEffect(() => {
     reset();
@@ -50,21 +65,16 @@ const Register = () => {
       try {
         await createUserWithEmailAndPassword(email, password);
         await updateProfile({ displayName: name });
+
+        // Triggers the useGetToken hook to generate the jwt token
+        if (emailAndPasswordUser) refetch();
       } catch (error) {
         setSubmitError(error?.message);
       }
     }
   };
 
-  if (data?.accessToken) {
-    return <Navigate to="/" />;
-  }
-
-  if (error) {
-    signOut(auth);
-  }
-
-  return emailAndPasswordLoading || updating || isLoading ? (
+  return emailAndPasswordLoading || updating || isLoading || isFetching ? (
     <LoadingSpinner />
   ) : (
     <div className="w-full h-[calc(100vh-73px)] bg-gray-400 dark:bg-darkGray-500">

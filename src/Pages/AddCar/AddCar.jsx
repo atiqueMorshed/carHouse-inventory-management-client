@@ -6,10 +6,12 @@ import CustomSubmitButton from '../Shared/CustomButton/CustomButton';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { useAddCar } from '../../Hooks/useAddCar';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const AddCar = () => {
   const toastAddCarSuccess = useRef(null);
+  const toastAddCarError = useRef(null);
+  const toastSubmitError = useRef(null);
 
   const {
     handleSubmit,
@@ -21,30 +23,54 @@ const AddCar = () => {
   const [submitError, setSubmitError] = useState('');
   const [user, loading] = useAuthState(auth);
 
-  const { mutateAsync, isLoading, isError, isSuccess, data, error } =
-    useAddCar();
-
   // Resets input fields on success
   useEffect(() => {
     reset();
   }, [isSubmitSuccessful, reset]);
 
-  // Shows unique and one successful toast message if car is added successfully.
   useEffect(() => {
-    if (isSuccess) {
-      if (!toast.isActive(toastAddCarSuccess.current)) {
-        toastAddCarSuccess.current = toast.success('Car Added Successfully!', {
-          position: 'top-right',
+    if (submitError) {
+      if (!toast.isActive(toastSubmitError.current)) {
+        console.log(submitError);
+        toastSubmitError.current = toast.error(submitError, {
+          containerId: 'AutoCloseEnabled',
+          pauseOnFocusLoss: false,
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
           progress: undefined,
         });
       }
     }
-  }, [isSuccess]);
+  }, [submitError]);
+
+  // Shows unique and one successful toast message if car is added successfully.
+  const onSuccess = () => {
+    if (!toast.isActive(toastAddCarSuccess.current)) {
+      toastAddCarSuccess.current = toast.success('Car Added Successfully!', {
+        containerId: 'AutoCloseEnabled',
+        pauseOnFocusLoss: false,
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
+  };
+
+  // Shows unique and one error toast message if car is not added.
+  const onError = () => {
+    if (!toast.isActive(toastAddCarError.current)) {
+      console.log(error);
+      toastAddCarError.current = toast.error(error?.message, {
+        containerId: 'AutoCloseEnabled',
+        pauseOnFocusLoss: false,
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
+  };
+
+  const { mutateAsync, isLoading, error } = useAddCar({
+    onSuccess,
+    onError,
+  });
 
   // Prepares data to post after clicking add car button
   const onSubmit = async (data) => {
@@ -347,12 +373,12 @@ const AddCar = () => {
             {/* Register Button */}
             <CustomSubmitButton>Add Car</CustomSubmitButton>
 
-            {submitError && <ErrorMessage error={submitError} />}
-            {isError && <ErrorMessage error={error.message} />}
+            {/* {submitError && <ErrorMessage error={submitError} />} */}
+            {/* {isError && <ErrorMessage error={error.message} />} */}
           </form>
         </div>
       </div>
-      <ToastContainer
+      {/* <ToastContainer
         position="top-right"
         autoClose={true}
         newestOnTop={false}
@@ -360,7 +386,7 @@ const AddCar = () => {
         rtl={false}
         pauseOnFocusLoss
         draggable
-      />
+      /> */}
     </div>
   );
 };

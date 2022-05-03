@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useQuery } from 'react-query';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 
 import auth from '../../../firebase.init';
-import { getToken } from '../../../api/getToken';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import CustomSubmitButton from '../../Shared/CustomButton/CustomButton';
 import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 import { signOut } from 'firebase/auth';
+import { useGetToken } from '../../../Hooks/useGetToken';
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const [submitError, setSubmitError] = useState('');
+  const [user, setUser] = useState();
 
   let from = location?.state?.from?.pathname || '/';
 
@@ -34,10 +34,39 @@ const Login = () => {
     emailAndPasswordError,
   ] = useSignInWithEmailAndPassword(auth);
 
-  const { isLoading, data, error } = useQuery(
-    ['token', emailAndPasswordUser],
-    getToken
-  );
+  // Resets form input values on success.
+  useEffect(() => {
+    reset();
+  }, [isSubmitSuccessful, reset]);
+
+  const onSuccess = (data) => {
+    console.log('JWT', data);
+    navigate(from, { replace: true });
+  };
+
+  const onError = (error) => {
+    console.log(error);
+    signOut(auth);
+  };
+
+  const { isLoading, error, isFetching, refetch } = useGetToken({
+    user,
+    onSuccess,
+    onError,
+  });
+
+  useEffect(() => {
+    if (emailAndPasswordUser?.user?.uid)
+      setUser({
+        email: emailAndPasswordUser?.user?.email,
+        uid: emailAndPasswordUser?.user?.uid,
+      });
+  }, [emailAndPasswordUser]);
+
+  // Triggers the useGetToken hook to generate the jwt token
+  useEffect(() => {
+    if (user?.uid) refetch();
+  }, [user, refetch]);
 
   useEffect(() => {
     reset();
@@ -55,15 +84,7 @@ const Login = () => {
     }
   };
 
-  if (data?.accessToken) {
-    navigate(from, { replace: true });
-  }
-
-  if (error) {
-    signOut(auth);
-  }
-
-  return emailAndPasswordLoading || isLoading ? (
+  return emailAndPasswordLoading || isLoading || isFetching ? (
     <LoadingSpinner />
   ) : (
     <div className="w-full h-[calc(100vh-73px)] bg-gray-400 dark:bg-darkGray-500">
@@ -176,7 +197,7 @@ const Login = () => {
               <ErrorMessage error={emailAndPasswordError.message} />
             )}
             {submitError && <ErrorMessage error={submitError} />}
-            {error && <ErrorMessage error={error.message} />}
+            {error?.message && <ErrorMessage error={error.message} />}
 
             {/* To Register  */}
             <div className="text-sm my-5">

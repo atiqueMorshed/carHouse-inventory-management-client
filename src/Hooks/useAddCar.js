@@ -18,6 +18,6 @@ const addCar = async (carData) => {
   }
 };
 
-export const useAddCar = () => {
-  return useMutation(addCar);
+export const useAddCar = ({ onSuccess, onError }) => {
+  return useMutation(addCar, { onSuccess, onError });
 };

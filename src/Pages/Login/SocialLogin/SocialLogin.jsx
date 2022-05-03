@@ -9,14 +9,13 @@ import {
 import SocialButton from '../SocialButton/SocialButton';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
-import { useQuery } from 'react-query';
-import { getToken } from '../../../api/getToken';
 import { signOut } from 'firebase/auth';
+import { useGetToken } from '../../../Hooks/useGetToken';
 
 const SocialLogin = ({ from }) => {
   const navigate = useNavigate();
 
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState();
 
   const [signInWithFacebook, facebookUser, facebookLoading, facebookError] =
     useSignInWithFacebook(auth);
@@ -24,22 +23,44 @@ const SocialLogin = ({ from }) => {
   const [signInWithGoogle, googleUser, googleLoading, googleError] =
     useSignInWithGoogle(auth);
 
-  const { isLoading, data, error } = useQuery(['token', user], getToken);
-
   useEffect(() => {
-    if (googleUser) setUser(googleUser);
-    else setUser(facebookUser);
+    if (googleUser?.user?.uid)
+      setUser({
+        email: googleUser?.user?.email,
+        uid: googleUser?.user?.uid,
+      });
+    else if (facebookUser?.user?.uid)
+      setUser({
+        email: facebookUser?.user?.email,
+        uid: facebookUser?.user?.uid,
+      });
   }, [googleUser, facebookUser]);
 
-  if (data?.accessToken) {
+  const onSuccess = (data) => {
+    console.log('JWT', data);
     navigate(from, { replace: true });
-  }
+  };
 
-  if (error) {
+  const onError = (error) => {
+    console.log(error);
     signOut(auth);
-  }
+  };
 
-  return facebookLoading || googleLoading || isLoading ? (
+  const { isLoading, error, isFetching, refetch } = useGetToken({
+    user,
+    onSuccess,
+    onError,
+  });
+
+  // Triggers the useGetToken hook to generate the jwt token
+  useEffect(() => {
+    if (user?.uid) {
+      console.log('REFETCHING');
+      refetch();
+    }
+  }, [user, refetch]);
+
+  return facebookLoading || googleLoading || isLoading || isFetching ? (
     <LoadingSpinner notFullHeight={true} />
   ) : (
     <>
@@ -50,9 +71,12 @@ const SocialLogin = ({ from }) => {
         <span className="bg-[#D4D7DA] dark:bg-[#13181F] p-2">OR</span>
       </p>
       <div className="flex justify-center items-center gap-4">
-        <SocialButton handleSignIn={signInWithGoogle} provider="google" />
+        <SocialButton
+          handleSignIn={async () => await signInWithGoogle()}
+          provider="google"
+        />
 
-        <SocialButton handleSignIn={signInWithFacebook} />
+        <SocialButton handleSignIn={async () => await signInWithFacebook()} />
       </div>
       <div className="w-[250px] text-center pt-2">
         {googleError?.message && (

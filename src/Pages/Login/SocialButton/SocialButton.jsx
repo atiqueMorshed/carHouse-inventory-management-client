@@ -1,7 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
-import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 
 const SocialButton = ({ handleSignIn, provider }) => {
   return (
