@@ -21,7 +21,7 @@ const getData = async ({ queryKey }) => {
 };
 
 export const useGetPublicData = ({ name, url, isEnabled = true }) => {
-  return useQuery(['getSlider', url], getData, {
+  return useQuery([name, url], getData, {
     enabled: isEnabled,
   });
 };
