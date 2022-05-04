@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 import Header from './Pages/Header/Header/Header';
 import RequireAuth from './Pages/Shared/RequireAuth/RequireAuth';
@@ -15,11 +14,18 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.min.css';
-import NotFound from './Pages/NotFound/NotFound';
-import ErrorFallback from './Pages/ErrorFallback/ErrorFallback';
 import Footer from './Pages/Footer/Footer';
+import ErrorFallback from './Pages/Shared/ErrorFallback/ErrorFallback';
+import NotFound from './Pages/Shared/NotFound/NotFound';
+import InventoryCar from './Pages/InventoryCar/InventoryCar';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 const App = () => {
   return (
     <div className="App font-poppins dark:bg-darkGray-500 dark:text-white">
@@ -56,10 +62,18 @@ const App = () => {
                 </RequireAuth>
               }
             />
+            <Route
+              path="/inventory/:id"
+              element={
+                <RequireAuth>
+                  <InventoryCar />
+                </RequireAuth>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
           {/* Enables react query devtools */}
-          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+          {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
         </QueryClientProvider>
         <ToastContainer
           enableMultiContainer

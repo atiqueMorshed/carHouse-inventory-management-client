@@ -86,7 +86,7 @@ const Login = () => {
     signOut(auth);
   };
 
-  const { isLoading, isFetching, refetch } = useGetToken({
+  const { isLoading, isFetching, isRefetching, refetch } = useGetToken({
     user,
     onSuccess,
     onError,
@@ -122,7 +122,7 @@ const Login = () => {
     }
   };
 
-  return emailAndPasswordLoading || isLoading || isFetching ? (
+  return emailAndPasswordLoading || isLoading || isFetching || isRefetching ? (
     <LoadingSpinner />
   ) : (
     <div className="w-full h-[calc(100vh-73px)] bg-gray-400 dark:bg-darkGray-500">

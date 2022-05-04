@@ -16,14 +16,14 @@ import React from 'react';
 const Footer = () => {
   return (
     <div className="dark:bg-darkGray-500 pt-20 mt-32 text-black dark:text-white border-t border-primaryBlue-500">
-      <div className="grid grid-cols-3 place-items-center pb-20">
-        <div className=" flex flex-col gap-6 justify-center items-start text-lg">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-16 lg:gap-y-0 place-items-center pb-20">
+        <div className=" flex flex-col gap-y-6 justify-center items-start text-lg border-b border-primaryBlue-500 lg:border-none pb-8 lg:pb-0">
           <div className="flex items-center gap-4">
             <FontAwesomeIcon
               className="h-6 w-6 p-3 rounded-full"
               icon={faPhone}
             />
-            <p>+880-1711111111</p>
+            <p>+880-1712345678</p>
           </div>
           <div className="flex items-center gap-4">
             <FontAwesomeIcon
@@ -41,10 +41,12 @@ const Footer = () => {
             <p>iamsamix17@gmail.com</p>
           </div>
         </div>
-        <div className="flex flex-col">
-          <h1 className="text-3xl text-center pb-8">Our Social Platforms</h1>
-          <div className="">
-            <div className="flex gap-6 md:gap-12 justify-center mb-7">
+        <div className="flex flex-col border-b border-primaryBlue-500 lg:border-none pb-8 lg:pb-0">
+          <h1 className="text-2xl xl:text-3xl text-center pb-8">
+            Our Social Platforms
+          </h1>
+          <div>
+            <div className="flex gap-6 md:gap-5 xl:gap-8 justify-center mb-7">
               <a href="https://www.google.com" target="_blank" rel="noreferrer">
                 <FontAwesomeIcon className="h-7 w-7" icon={faGoogle} />
               </a>
@@ -73,7 +75,7 @@ const Footer = () => {
         </div>
         <div className="flex flex-col">
           <h1 className="text-3xl text-center pb-8">About Us</h1>
-          <p className="w-[350px] mx-auto text-justify">
+          <p className="max-w-[350px] mx-auto text-justify">
             CarHouse is a car inventory management system. CarHub allows you to
             manage your car inventory very easily. keep track of your supplies,
             and your sold cars. And the extra protection of JWT keeps your data

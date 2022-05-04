@@ -76,7 +76,7 @@ const SocialLogin = ({ from }) => {
     signOut(auth);
   };
 
-  const { isLoading, isFetching, refetch } = useGetToken({
+  const { isLoading, isFetching, isRefetching, refetch } = useGetToken({
     user,
     onSuccess,
     onError,
@@ -89,7 +89,11 @@ const SocialLogin = ({ from }) => {
     }
   }, [user, refetch]);
 
-  return facebookLoading || googleLoading || isLoading || isFetching ? (
+  return facebookLoading ||
+    googleLoading ||
+    isLoading ||
+    isFetching ||
+    isRefetching ? (
     <LoadingSpinner notFullHeight={true} />
   ) : (
     <>

@@ -5,8 +5,9 @@ import {
   useSendEmailVerification,
 } from 'react-firebase-hooks/auth';
 import { toast } from 'react-toastify';
-import auth from '../../../firebase.init';
+import Hamburger from 'hamburger-react';
 
+import auth from '../../../firebase.init';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import MenuItems from '../MenuItems/MenuItems';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -83,12 +84,15 @@ const Header = () => {
         <h1 className="text-2xl font-extrabold dark:text-primaryBlue-400">
           <Link to="/">CarHouse</Link>
         </h1>
+        <div className="lg:hidden">
+          <Hamburger toggled={toggleMenu} toggle={setToggleMenu} />
+        </div>
 
-        <FontAwesomeIcon
+        {/* <FontAwesomeIcon
           className="w-6 h-6 lg:hidden"
           icon={faBars}
           onClick={() => setToggleMenu((prev) => !prev)}
-        />
+        /> */}
         <div className="hidden lg:block">
           <MenuItems user={user} />
         </div>

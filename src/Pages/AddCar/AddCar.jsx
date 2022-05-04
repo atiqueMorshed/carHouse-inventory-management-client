@@ -53,7 +53,7 @@ const AddCar = () => {
   };
 
   // Shows unique and one error toast message if car is not added.
-  const onError = () => {
+  const onError = (error) => {
     if (!toast.isActive(toastAddCarError.current)) {
       toastAddCarError.current = toast.error(error?.message, {
         containerId: 'AutoCloseEnabled',
@@ -64,7 +64,7 @@ const AddCar = () => {
     }
   };
 
-  const { mutateAsync, isLoading, error } = useAddCar({
+  const { mutateAsync, isLoading, isError, error } = useAddCar({
     onSuccess,
     onError,
   });
@@ -370,8 +370,8 @@ const AddCar = () => {
             {/* Register Button */}
             <CustomSubmitButton>Add Car</CustomSubmitButton>
 
-            {/* {submitError && <ErrorMessage error={submitError} />} */}
-            {/* {isError && <ErrorMessage error={error.message} />} */}
+            {submitError && <ErrorMessage error={submitError} />}
+            {isError && <ErrorMessage error={error.message} />}
           </form>
         </div>
       </div>
