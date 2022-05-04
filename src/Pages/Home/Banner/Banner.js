@@ -5,11 +5,10 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useGetPublicData } from '../../../Hooks/useGetPublicData';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
-import Slide from './Slide/Slide';
 
 const Banner = () => {
   const { isLoading, isFetching, isError, isSuccess, error, data } =
@@ -19,11 +18,17 @@ const Banner = () => {
     <LoadingSpinner />;
   }
   if (isError) {
-    console.log(error);
+    return (
+      <div className="flex flex-col justify-center items-center gap-4 h-[80vh] text-center border-b">
+        <h1 className="text-3xl text-primaryBlue-500">
+          Error fetching slider information
+        </h1>
+        <pre className="text-primaryBlue-500">{error?.message}</pre>
+      </div>
+    );
   }
 
   if (isSuccess && data) {
-    console.log(data);
     return (
       <div>
         <Swiper
