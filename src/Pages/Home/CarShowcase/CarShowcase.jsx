@@ -23,7 +23,6 @@ const CarShowcase = () => {
   }
 
   if (isSuccess && data) {
-    console.log(data);
     return (
       <div className="mt-36">
         <h1 className="text-4xl text-center mb-14">Car Showcase</h1>

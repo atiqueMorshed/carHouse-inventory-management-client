@@ -17,6 +17,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import NotFound from './Pages/NotFound/NotFound';
 import ErrorFallback from './Pages/ErrorFallback/ErrorFallback';
+import Footer from './Pages/Footer/Footer';
 
 const queryClient = new QueryClient();
 const App = () => {
@@ -84,6 +85,7 @@ const App = () => {
           pauseOnFocusLoss
           draggable
         />
+        <Footer />
       </ErrorBoundary>
     </div>
   );
