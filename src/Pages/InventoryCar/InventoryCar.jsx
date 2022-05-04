@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useGetDataById } from '../../Hooks/useGetDataById';
 import LoadingSpinner from '../Shared/LoadingSpinner/LoadingSpinner';
 import DeliverCar from './DeliverCar';
+import RestockCar from './RestockCar';
 
 const InventoryCar = () => {
   const { id } = useParams();
@@ -93,7 +94,10 @@ const InventoryCar = () => {
                 {lastModified.split('T')[0] || lastModified}
               </span>
             </p>
-            <DeliverCar id={_id} refetch={refetch} />
+            <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-start mt-8">
+              <DeliverCar id={_id} refetch={refetch} />
+              <RestockCar id={_id} refetch={refetch} />
+            </div>
           </div>
         </div>
       </div>

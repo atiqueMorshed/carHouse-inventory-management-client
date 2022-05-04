@@ -43,7 +43,7 @@ const DeliverCar = ({ id, refetch }) => {
         await mutateAsync({ url: '/api/updateDelivery', postData: id });
         setDisabled(false);
       }}
-      className={`flex justify-center items-center gap-2 py-3 px-6 mt-5 bg-primaryBlue-500 rounded text-white font-medium hover:bg-primaryBlue-600 transition-all duration-150 ${
+      className={`flex justify-center items-center gap-2 py-3 px-6 bg-primaryBlue-500 rounded text-white font-medium hover:bg-primaryBlue-600 transition-all duration-150 ${
         disabled
           ? 'bg-primaryBlue-700 bg-opacity-50 hover:bg-primaryBlue-700 hover:bg-opacity-50 pointer-events-none'
           : ''
