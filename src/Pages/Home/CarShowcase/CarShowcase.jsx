@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useGetPublicData } from '../../../Hooks/useGetPublicData';
+import CustomLinkButton from '../../Shared/CustonLinkButton/CustomLinkButton';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import CarCard from './CarCard';
 
@@ -23,8 +25,31 @@ const CarShowcase = () => {
   }
 
   if (isSuccess && data) {
+    if (data?.length === 0) {
+      return (
+        <div className="mt-36 flex flex-col items-center">
+          <h1 className="text-4xl text-center mb-14">Car Showcase</h1>
+          <div className="text-center text-gray-600">
+            No car is available.{' '}
+            <Link
+              className="underline text-gray-500 hover:text-primaryBlue-500"
+              to="/addCar"
+            >
+              Add Now
+            </Link>
+          </div>
+
+          <CustomLinkButton
+            to="/manageInventories"
+            extraClassName="mt-20 py-4 px-8 text-lg"
+          >
+            Manage Inventories
+          </CustomLinkButton>
+        </div>
+      );
+    }
     return (
-      <div className="mt-36">
+      <div className="mt-36 flex flex-col items-center">
         <h1 className="text-4xl text-center mb-14">Car Showcase</h1>
         <div className="grid lg:grid-cols-2 gap-1">
           {data?.map((car, index) => (
@@ -35,6 +60,13 @@ const CarShowcase = () => {
             />
           ))}
         </div>
+
+        <CustomLinkButton
+          to="/manageInventories"
+          extraClassName="mt-20 py-4 px-8 text-lg"
+        >
+          Manage Inventories
+        </CustomLinkButton>
       </div>
     );
   }

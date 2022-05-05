@@ -18,6 +18,7 @@ import Footer from './Pages/Footer/Footer';
 import ErrorFallback from './Pages/Shared/ErrorFallback/ErrorFallback';
 import NotFound from './Pages/Shared/NotFound/NotFound';
 import InventoryCar from './Pages/InventoryCar/InventoryCar';
+import ManageInventories from './Pages/ManageInventories/ManageInventories';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -67,6 +68,14 @@ const App = () => {
               element={
                 <RequireAuth>
                   <InventoryCar />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/manageInventories"
+              element={
+                <RequireAuth>
+                  <ManageInventories />
                 </RequireAuth>
               }
             />

@@ -10,8 +10,6 @@ import Hamburger from 'hamburger-react';
 import auth from '../../../firebase.init';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import MenuItems from '../MenuItems/MenuItems';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
   const toastEmailNotVerified = useRef(null);

@@ -6,9 +6,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useGetPublicData } from '../../../Hooks/useGetPublicData';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
+import CustomLinkButton from '../../Shared/CustonLinkButton/CustomLinkButton';
 
 const Banner = () => {
   const { isLoading, isFetching, isError, isSuccess, error, data } =
@@ -59,12 +59,9 @@ const Banner = () => {
                   <p className="font-medium text-primaryBlue-500 mt-2 mb-6">
                     {name}
                   </p>
-                  <Link
-                    to={`/inventory/${carId}`}
-                    className="py-2 px-4 bg-primaryBlue-500 rounded text-white text-sm hover:bg-primaryBlue-600 transition-all duration-150"
-                  >
+                  <CustomLinkButton to={`/inventory/${carId}`}>
                     Manage Now!
-                  </Link>
+                  </CustomLinkButton>
                 </div>
               </div>
             </SwiperSlide>

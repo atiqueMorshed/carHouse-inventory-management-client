@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CustomLinkButton from '../../Shared/CustonLinkButton/CustomLinkButton';
 
 const CarCard = ({
   car: {
@@ -58,13 +59,9 @@ const CarCard = ({
         <p className="truncate w-[200px] md:w-[400px] pt-4">{description}</p>
 
         <p className="pt-4 pb-8">Supplier: {name}</p>
-
-        <Link
-          to={`/inventory/${_id}`}
-          className="py-3 px-6 bg-primaryBlue-500 rounded text-white text-sm hover:bg-primaryBlue-600 transition-all duration-150"
-        >
+        <CustomLinkButton to={`/inventory/${_id}`}>
           Manage Now!
-        </Link>
+        </CustomLinkButton>
       </div>
     </div>
   );

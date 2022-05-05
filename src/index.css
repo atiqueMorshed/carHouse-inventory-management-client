@@ -18,4 +18,7 @@
   .button-style-1 {
     @apply py-3 mt-8 border-none rounded-full bg-primaryBlue-500 hover:bg-primaryBlue-600 transition-all duration-150 text-white text-center block w-[130px];
   }
+  .th-1 {
+    @apply px-6 py-3;
+  }
 }
