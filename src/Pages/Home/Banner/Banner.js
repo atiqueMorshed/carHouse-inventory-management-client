@@ -9,6 +9,7 @@ import React from 'react';
 import { useGetPublicData } from '../../../Hooks/useGetPublicData';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
 import CustomLinkButton from '../../Shared/CustonLinkButton/CustomLinkButton';
+import { Link } from 'react-router-dom';
 
 const Banner = () => {
   const { isLoading, isFetching, isError, isSuccess, error, data } =
@@ -29,6 +30,20 @@ const Banner = () => {
   }
 
   if (isSuccess && data) {
+    if (data?.length === 0) {
+      return (
+        <div className="flex flex-col items-center justify-center text-white bg-[url('https://i.ibb.co/nQ9nSj1/audi-r8.jpg')] h-[70vh]">
+          <h1 className="text-2xl md:text-5xl text-center">
+            No car added to slider.
+          </h1>
+          <div className="text-center text-2xl mt-8">
+            <Link className="underline hover:text-primaryBlue-400" to="/addCar">
+              Add Now
+            </Link>
+          </div>
+        </div>
+      );
+    }
     return (
       <div>
         <Swiper
