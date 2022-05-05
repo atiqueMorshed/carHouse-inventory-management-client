@@ -20,8 +20,14 @@ const getData = async ({ queryKey }) => {
   }
 };
 
-export const useGetProtedtedData = ({ name, url, isEnabled = true }) => {
+export const useGetProtedtedData = ({
+  name,
+  url,
+  onError,
+  isEnabled = true,
+}) => {
   return useQuery([name, url], getData, {
     enabled: isEnabled,
+    onError,
   });
 };

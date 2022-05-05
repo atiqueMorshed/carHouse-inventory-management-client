@@ -20,9 +20,9 @@ const CarTuple = ({
   },
   refetch,
 }) => {
-  let toastDeleteCarSuccess = useRef(null);
-  let toastDeleteCarError = useRef(null);
-  let toastUserError = useRef(null);
+  const toastDeleteCarSuccess = useRef(null);
+  const toastDeleteCarError = useRef(null);
+  const toastUserError = useRef(null);
 
   const [disabled, setDisabled] = useState(false);
   const [user, userLoading, userError] = useAuthState(auth);

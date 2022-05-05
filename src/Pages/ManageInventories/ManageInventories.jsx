@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useGetProtedtedData } from '../../Hooks/useGetProtectedData';
 import LoadingSpinner from '../Shared/LoadingSpinner/LoadingSpinner';
 import Title from '../Shared/Title/Title';
 import CarTuple from './CarTuple';
 
 const ManageInventories = () => {
+  const toastGetInventoryError = useRef(null);
+
+  const onError = (error) => {
+    if (!toast.isActive(toastGetInventoryError.current)) {
+      toastGetInventoryError.current = toast.error(error?.message, {
+        containerId: 'AutoCloseEnabled',
+        pauseOnFocusLoss: false,
+        autoClose: 5000,
+        progress: undefined,
+      });
+    }
+  };
+
   const {
     isLoading,
     isFetching,
@@ -18,6 +32,7 @@ const ManageInventories = () => {
   } = useGetProtedtedData({
     name: 'getInventoriesData',
     url: '/api/inventory',
+    onError,
   });
 
   if (isLoading || isFetching || isRefetching) {

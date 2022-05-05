@@ -10,9 +10,9 @@ import { toast } from 'react-toastify';
 import Title from '../Shared/Title/Title';
 
 const AddCar = () => {
-  let toastAddCarSuccess = useRef(null);
-  let toastAddCarError = useRef(null);
-  let toastSubmitError = useRef(null);
+  const toastAddCarSuccess = useRef(null);
+  const toastAddCarError = useRef(null);
+  const toastSubmitError = useRef(null);
 
   const {
     handleSubmit,
