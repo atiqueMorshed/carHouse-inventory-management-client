@@ -8,7 +8,7 @@ const addCar = async (carData) => {
     });
     return response.data;
   } catch (error) {
-    console.log('ERROR IN ADDCAR: ', error?.message);
+    // console.log('ERROR IN ADDCAR: ', error?.message);
     throw new Error(
       `Submit unsuccessful. ${
         error?.response?.data?.message

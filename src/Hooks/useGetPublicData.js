@@ -10,7 +10,7 @@ const getData = async ({ queryKey }) => {
       return data;
     } catch (error) {
       throw new Error(
-        `Coundn't fetch sliders. ${
+        `Coundn't fetch. ${
           error?.response?.data?.message
             ? error.response.data.message
             : error?.message

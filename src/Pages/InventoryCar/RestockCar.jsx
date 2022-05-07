@@ -49,7 +49,7 @@ const RestockCar = ({ refetch, id }) => {
   }, [isSubmitSuccessful, reset]);
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
     setDisabled(true);
     await mutateAsync({
       url: '/api/updateStock',

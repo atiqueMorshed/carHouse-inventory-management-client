@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { toast } from 'react-toastify';
-import auth from '../../firebase.init';
-import { useDeleteCarById } from '../../Hooks/useDeleteCarById';
-import LoadingSpinner from '../Shared/LoadingSpinner/LoadingSpinner';
-
+import auth from '../../../firebase.init';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import { useDeleteCarById } from '../../../Hooks/useDeleteCarById';
+import { Link, useNavigate } from 'react-router-dom';
 const CarTuple = ({
   car: {
     _id,
@@ -20,6 +20,7 @@ const CarTuple = ({
   },
   refetch,
 }) => {
+  const navigate = useNavigate();
   const toastDeleteCarSuccess = useRef(null);
   const toastDeleteCarError = useRef(null);
   const toastUserError = useRef(null);
@@ -62,10 +63,6 @@ const CarTuple = ({
   });
 
   useEffect(() => {
-    console.log(disabled);
-  }, [disabled]);
-
-  useEffect(() => {
     if (isLoading) setDisabled(true);
     else setDisabled(false);
   }, [isLoading]);
@@ -95,12 +92,12 @@ const CarTuple = ({
 
   return (
     <tr className="border-b border-gray-100 dark:border-gray-700">
-      <th
-        scope="row"
-        className="font-medium px-6 py-4 text-gray-900 dark:text-white whitespace-nowrap"
+      <td
+        onClick={() => navigate(`/inventory/${_id}`)}
+        className="font-medium px-6 py-4 text-gray-900 dark:text-white whitespace-nowrap underline cursor-pointer pointer-events-auto"
       >
         {carName}
-      </th>
+      </td>
       <td className="th-1">{quantity}</td>
       <td className="th-1">{price}</td>
       <td className="th-1">{sold}</td>

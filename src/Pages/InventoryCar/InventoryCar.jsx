@@ -5,6 +5,8 @@ import LoadingSpinner from '../Shared/LoadingSpinner/LoadingSpinner';
 import DeliverCar from './DeliverCar';
 import RestockCar from './RestockCar';
 
+import CustomLinkButton from '../Shared/CustonLinkButton/CustomLinkButton';
+
 const InventoryCar = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -35,7 +37,10 @@ const InventoryCar = () => {
   if (isError) {
     return (
       <div className="min-h-[calc(100vh-320px)] flex flex-col gap-8 justify-center items-center text-primaryBlue-500">
-        <h1 className="text-3xl">Couldn't load the car.</h1>
+        <div className="flex flex-col justify-center gap-8 items-center mb-10">
+          <h1 className="text-4xl text-center">Manage Inventories</h1>
+          <CustomLinkButton to="/addCar">Add New Car</CustomLinkButton>
+        </div>
         <pre>{error?.message}</pre>
       </div>
     );
@@ -56,7 +61,12 @@ const InventoryCar = () => {
     } = data;
     return (
       <div className="min-h-[calc(100vh-320px)] mt-36">
-        <h1 className="text-5xl text-center pb-12">Inventory Car</h1>
+        <div className="flex flex-col justify-center gap-8 items-center mb-10">
+          <h1 className="text-4xl text-center">Inventory Car</h1>
+          <CustomLinkButton to="/manageInventories">
+            Manage Inventories
+          </CustomLinkButton>
+        </div>
         <div className="relative flex flex-col lg:flex-row justify-center items-center gap-4">
           <img
             className="min-h-[420px] lg:w-1/2 rounded object-cover"

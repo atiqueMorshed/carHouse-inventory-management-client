@@ -56,7 +56,7 @@ const ResetPassword = () => {
       try {
         await sendPasswordResetEmail(email);
       } catch (error) {
-        console.log('ER');
+        console.log('Reset Password Error: ', error?.message);
       }
     }
   };

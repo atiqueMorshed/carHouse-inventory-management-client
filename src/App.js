@@ -8,7 +8,6 @@ import Blogs from './Pages/Blogs/Blogs';
 import Login from './Pages/Login/Login/Login';
 import Register from './Pages/Login/Register/Register';
 import ResetPassword from './Pages/Login/ResetPassword/ResetPassword';
-import TestProtected from './Pages/Shared/TestProtected/TestProtected';
 import AddCar from './Pages/AddCar/AddCar';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ToastContainer } from 'react-toastify';
@@ -19,6 +18,8 @@ import ErrorFallback from './Pages/Shared/ErrorFallback/ErrorFallback';
 import NotFound from './Pages/Shared/NotFound/NotFound';
 import InventoryCar from './Pages/InventoryCar/InventoryCar';
 import ManageInventories from './Pages/ManageInventories/ManageInventories';
+import MyCars from './Pages/MyCars';
+import Title from './Pages/Shared/Title/Title';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,24 +43,60 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <Header />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/blog" element={<Blogs />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/reset" element={<ResetPassword />} />
             <Route
-              path="/protected"
+              path="/"
               element={
-                <RequireAuth>
-                  <TestProtected />
-                </RequireAuth>
+                <>
+                  <Title title="Home" />
+                  <Home />
+                </>
               }
             />
+            <Route
+              path="/blog"
+              element={
+                <>
+                  <Title title="Blog" />
+                  <Blogs />
+                </>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <>
+                  <Title title="Login" />
+                  <Login />
+                </>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <>
+                  <Title title="Register" />
+                  <Register />
+                </>
+              }
+            />
+            <Route
+              path="/reset"
+              element={
+                <>
+                  <Title title="Reset Password" />
+                  <ResetPassword />
+                </>
+              }
+            />
+
             <Route
               path="/addCar"
               element={
                 <RequireAuth>
-                  <AddCar />
+                  <>
+                    <Title title="Add Car" />
+                    <AddCar />
+                  </>
                 </RequireAuth>
               }
             />
@@ -67,7 +104,10 @@ const App = () => {
               path="/inventory/:id"
               element={
                 <RequireAuth>
-                  <InventoryCar />
+                  <>
+                    <Title title="Inventory Car" />
+                    <InventoryCar />
+                  </>
                 </RequireAuth>
               }
             />
@@ -75,11 +115,33 @@ const App = () => {
               path="/manageInventories"
               element={
                 <RequireAuth>
-                  <ManageInventories />
+                  <>
+                    <Title title="Manage Inventories" />
+                    <ManageInventories />
+                  </>
                 </RequireAuth>
               }
             />
-            <Route path="*" element={<NotFound />} />
+            <Route
+              path="/myCars"
+              element={
+                <RequireAuth>
+                  <>
+                    <Title title="My Cars" />
+                    <MyCars />
+                  </>
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <>
+                  <Title title="Not Found" />
+                  <NotFound />
+                </>
+              }
+            />
           </Routes>
           {/* Enables react query devtools */}
           {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}

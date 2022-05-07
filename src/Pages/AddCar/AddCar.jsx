@@ -7,7 +7,6 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { useAddCar } from '../../Hooks/useAddCar';
 import { toast } from 'react-toastify';
-import Title from '../Shared/Title/Title';
 
 const AddCar = () => {
   const toastAddCarSuccess = useRef(null);
@@ -108,7 +107,7 @@ const AddCar = () => {
     <LoadingSpinner />
   ) : (
     <div className="w-full min-h-screen bg-gray-400 dark:bg-darkGray-500">
-      <Title title="Add Car" />
+      {/* <Title title="Add Car" /> */}
       {/* Background Image */}
       <div className='flex justify-center items-center  min-h-screen object-cover bg-[url("https://i.ibb.co/L0FKXmS/bg-add-Car-transparent.png")] bg-cover bg-no-repeat'>
         {/* Add Car Box */}
