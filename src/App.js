@@ -20,6 +20,7 @@ import InventoryCar from './Pages/InventoryCar/InventoryCar';
 import ManageInventories from './Pages/ManageInventories/ManageInventories';
 import MyCars from './Pages/MyCars';
 import Title from './Pages/Shared/Title/Title';
+import About from './Pages/About/About';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -58,6 +59,15 @@ const App = () => {
                 <>
                   <Title title="Blog" />
                   <Blogs />
+                </>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <>
+                  <Title title="About" />
+                  <About />
                 </>
               }
             />
