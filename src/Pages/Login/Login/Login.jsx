@@ -86,11 +86,12 @@ const Login = () => {
     signOut(auth);
   };
 
-  const { isLoading, isFetching, isRefetching, refetch } = useGetToken({
-    user,
-    onSuccess,
-    onError,
-  });
+  const { isLoading, isFetching, isRefetching, refetch, isError, error } =
+    useGetToken({
+      user,
+      onSuccess,
+      onError,
+    });
 
   // Create minified user object
   useEffect(() => {
@@ -231,11 +232,11 @@ const Login = () => {
             {/* Login Button */}
             <CustomSubmitButton>Login</CustomSubmitButton>
 
-            {/* {emailAndPasswordError?.message && (
+            {emailAndPasswordError?.message && (
               <ErrorMessage error={emailAndPasswordError.message} />
-            )} */}
-            {/* {submitError && <ErrorMessage error={submitError} />}
-            {error?.message && <ErrorMessage error={error.message} />} */}
+            )}
+            {submitError && <ErrorMessage error={submitError} />}
+            {isError && <ErrorMessage error={error.message} />}
 
             {/* To Register  */}
             <div className="text-sm my-5">

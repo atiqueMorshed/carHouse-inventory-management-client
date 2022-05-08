@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../firebase.init';
 import LoadingSpinner from './Shared/LoadingSpinner/LoadingSpinner';
-import CustomLinkButton from './Shared/CustonLinkButton/CustomLinkButton';
 import { useGetProtedtedData } from '../Hooks/useGetProtectedData';
 import CarTuple from './Shared/CarTuple/CarTuple';
 

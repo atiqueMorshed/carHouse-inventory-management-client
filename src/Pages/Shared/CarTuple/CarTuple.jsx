@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import auth from '../../../firebase.init';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import { useDeleteCarById } from '../../../Hooks/useDeleteCarById';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const CarTuple = ({
   car: {
     _id,

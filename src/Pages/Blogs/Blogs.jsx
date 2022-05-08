@@ -66,32 +66,31 @@ const Blogs = () => {
             the network.
           </p>
         </div>
+      </div>
 
-        <div className="flex flex-col gap-4 border border-gray-700">
-          <h1 className="text-2xl border-b border-gray-700 p-6">
-            What is the purpose of jwt and how does it work?
-          </h1>
-          <div className="flex flex-col gap-4 px-6 pb-4">
-            <p>
-              JWT or JSON web token is used to share information between two
-              parties in a compact and self-contained way. This is a open
-              standard. The information is passed as JSON. JWT is a signed
-              document and can only be verified with the secret that it was
-              signed with. This does not concern with data hiding. In fact, no
-              sensitive information should be kept in its object. But it ensures
-              data integrity. That means, if the token has been tempered, it can
-              be detected with the secret. A JWT has three parts, a header that
-              consists of the type of token and the signing algorithm. The
-              second part is the payload containing the actual data. Finally,
-              the third part is the signature, which can be created with the
-              encoded header, payload and the secret. The most common use is to
-              authorize user. Whenever a user logs in, next requests made by the
-              user will include the JWT. This can be used as authenticator as
-              well. Because the token is signed, if any third party tries to
-              change it, that tempering can be detected.
-            </p>
-            <p></p>
-          </div>
+      <div className="flex flex-col gap-4 border border-gray-700">
+        <h1 className="text-2xl border-b border-gray-700 p-6">
+          What is the purpose of jwt and how does it work?
+        </h1>
+        <div className="flex flex-col gap-4 px-6 pb-4">
+          <p>
+            JWT or JSON web token is used to share information between two
+            parties in a compact and self-contained way. This is a open
+            standard. The information is passed as JSON. JWT is a signed
+            document and can only be verified with the secret that it was signed
+            with. This does not concern with data hiding. In fact, no sensitive
+            information should be kept in its object. But it ensures data
+            integrity. That means, if the token has been tempered, it can be
+            detected with the secret. A JWT has three parts, a header that
+            consists of the type of token and the signing algorithm. The second
+            part is the payload containing the actual data. Finally, the third
+            part is the signature, which can be created with the encoded header,
+            payload and the secret. The most common use is to authorize user.
+            Whenever a user logs in, next requests made by the user will include
+            the JWT. This can be used as authenticator as well. Because the
+            token is signed, if any third party tries to change it, that
+            tempering can be detected.
+          </p>
         </div>
       </div>
     </div>

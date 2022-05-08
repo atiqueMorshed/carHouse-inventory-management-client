@@ -78,6 +78,9 @@ const InventoryCar = () => {
           </div>
           <div className="w-11/12 lg:w-1/2">
             <h1 className="text-5xl">{carName}</h1>
+            <p className="text-xs py-1 px-2 bg-primaryBlue-500 rounded-full w-fit mt-2">
+              {_id}
+            </p>
             <p className="text-3xl font-semibold pt-4">${price}</p>
             <div className="flex gap-12">
               <p className="pt-4">

@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { useGetToken } from '../../../Hooks/useGetToken';
 import SocialButton from '../SocialButton/SocialButton';
 import LoadingSpinner from '../../Shared/LoadingSpinner/LoadingSpinner';
+import ErrorMessage from '../../Shared/ErrorMessage/ErrorMessage';
 
 const SocialLogin = ({ from }) => {
   const navigate = useNavigate();
@@ -76,11 +77,12 @@ const SocialLogin = ({ from }) => {
     signOut(auth);
   };
 
-  const { isLoading, isFetching, isRefetching, refetch } = useGetToken({
-    user,
-    onSuccess,
-    onError,
-  });
+  const { isLoading, isFetching, isRefetching, refetch, isError, error } =
+    useGetToken({
+      user,
+      onSuccess,
+      onError,
+    });
 
   // Triggers the useGetToken hook to generate the jwt token
   useEffect(() => {
@@ -111,15 +113,15 @@ const SocialLogin = ({ from }) => {
 
         <SocialButton handleSignIn={async () => await signInWithFacebook()} />
       </div>
-      {/* <div className="w-[250px] text-center pt-2">
+      <div className="w-[250px] text-center pt-2">
         {googleError?.message && (
           <ErrorMessage error={`Google: ${googleError?.message}`} />
         )}
         {facebookError?.message && (
           <ErrorMessage error={`Facebook: ${facebookError?.message}`} />
         )}
-        {error && <ErrorMessage error={error.message} />}
-      </div> */}
+        {isError && <ErrorMessage error={error?.message} />}
+      </div>
     </>
   );
 };

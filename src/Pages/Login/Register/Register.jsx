@@ -60,11 +60,12 @@ const Register = () => {
     signOut(auth);
   };
 
-  const { isLoading, isFetching, isRefetching, refetch } = useGetToken({
-    user,
-    onSuccess,
-    onError,
-  });
+  const { isLoading, isFetching, isRefetching, refetch, isError, error } =
+    useGetToken({
+      user,
+      onSuccess,
+      onError,
+    });
 
   // Reset input fields on success
   useEffect(() => {
@@ -315,7 +316,6 @@ const Register = () => {
             {/* Register Button */}
             <CustomSubmitButton>Register</CustomSubmitButton>
 
-            {/* 
             {emailAndPasswordError?.message && (
               <ErrorMessage error={emailAndPasswordError.message} />
             )}
@@ -323,8 +323,7 @@ const Register = () => {
               <ErrorMessage error={UpdateError.message} />
             )}
             {submitError && <ErrorMessage error={submitError} />}
-            {error && <ErrorMessage error={error.message} />} 
-            */}
+            {isError && <ErrorMessage error={error.message} />}
 
             {/* To Login */}
             <div className="text-sm mt-8">
