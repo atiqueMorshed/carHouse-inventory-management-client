@@ -72,10 +72,15 @@ const CarTuple = ({
   }
 
   const handleDelete = async () => {
-    if (!disabled) {
-      setDisabled(true);
-      await mutateAsync({ url: '/api/inventory', id: _id });
-      setDisabled(false);
+    let shouldDelete = window.confirm(
+      'Are you sure you want to delete this item?'
+    );
+    if (shouldDelete) {
+      if (!disabled) {
+        setDisabled(true);
+        await mutateAsync({ url: '/api/inventory', id: _id });
+        setDisabled(false);
+      }
     }
   };
 
