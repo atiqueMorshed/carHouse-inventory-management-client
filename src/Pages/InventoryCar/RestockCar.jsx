@@ -54,6 +54,7 @@ const RestockCar = ({ refetch, id }) => {
     await mutateAsync({
       url: '/api/updateStock',
       postData: { id, restockBy: data.stock },
+      method: 'PUT',
     });
     setDisabled(false);
   };

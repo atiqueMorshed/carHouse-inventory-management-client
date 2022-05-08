@@ -38,7 +38,7 @@ const InventoryCar = () => {
     return (
       <div className="min-h-[calc(100vh-320px)] flex flex-col gap-8 justify-center items-center text-primaryBlue-500">
         <div className="flex flex-col justify-center gap-8 items-center mb-10">
-          <h1 className="text-4xl text-center">Manage Inventories</h1>
+          <h1 className="text-4xl text-center">Inventory Car</h1>
           <CustomLinkButton to="/addCar">Add New Car</CustomLinkButton>
         </div>
         <pre>{error?.message}</pre>

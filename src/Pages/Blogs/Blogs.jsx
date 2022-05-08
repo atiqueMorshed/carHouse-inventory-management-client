@@ -3,7 +3,7 @@ import React from 'react';
 const Blogs = () => {
   return (
     <div className="w-11/12 max-w-[600px] pt-32 mx-auto flex flex-col justify-center items-center gap-8">
-      <h1 className="text-4xl font-medium text-center pb-8">Blog</h1>
+      <h1 className="text-4xl font-medium text-center mb-6">Blog</h1>
       <div className="flex flex-col gap-4 border border-gray-700">
         <h1 className="text-2xl border-b border-gray-700 p-6">
           Difference between javascript and node.js

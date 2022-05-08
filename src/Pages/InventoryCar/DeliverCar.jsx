@@ -25,6 +25,7 @@ const DeliverCar = ({ id, refetch }) => {
   };
 
   const { mutateAsync, isLoading } = useMutateData({
+    method: 'PUT',
     onSuccess,
     onError,
   });
@@ -40,7 +41,11 @@ const DeliverCar = ({ id, refetch }) => {
       disabled={disabled}
       onClick={async () => {
         setDisabled(true);
-        await mutateAsync({ url: '/api/updateDelivery', postData: id });
+        await mutateAsync({
+          url: '/api/updateDelivery',
+          postData: id,
+          method: 'PUT',
+        });
         setDisabled(false);
       }}
       className={`flex justify-center items-center gap-2 py-3 px-6 bg-primaryBlue-500 rounded text-white font-medium hover:bg-primaryBlue-600 transition-all duration-150 ${

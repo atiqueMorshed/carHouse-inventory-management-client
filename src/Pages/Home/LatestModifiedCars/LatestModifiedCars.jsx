@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -48,7 +48,7 @@ const LatestModifiedCars = () => {
     return (
       <div className="flex flex-col justify-center items-center gap-4 h-[40vh] text-center border-b">
         <h1 className="text-3xl text-primaryBlue-500">
-          Error fetching slider information
+          Error fetching latest cars information
         </h1>
         <pre className="text-primaryBlue-500">{error?.message}</pre>
       </div>
@@ -56,7 +56,6 @@ const LatestModifiedCars = () => {
   }
 
   if (isSuccess && data) {
-    console.log(data);
     if (data?.length === 0) {
       return (
         <div className="flex flex-col items-center justify-center text-white bg-[url('https://i.ibb.co/nQ9nSj1/audi-r8.jpg')] h-[70vh]">
@@ -71,7 +70,10 @@ const LatestModifiedCars = () => {
     }
     return (
       <div className="mt-32">
-        <h1 className="text-4xl text-center mb-14">Latest Modified Cars</h1>
+        <h1 className="text-4xl text-center mb-12">Latest Modified Cars</h1>
+        <p className="text-xs text-center mb-2">
+          hover for more information. Click to go to inventory details
+        </p>
         <Swiper
           slidesPerView={1}
           spaceBetween={10}
@@ -111,12 +113,45 @@ const LatestModifiedCars = () => {
                       </h1>
                       <div className="hidden group-hover:flex flex-col gap-1 justify-center items-center h-full group-hover:transition-all group-hover:duration-300">
                         <h1 className="text-xl font-bold">{carName}</h1>
-                        <p>
-                          {date.getHours()}:{date.getMinutes()} |{' '}
-                          {date.getDay()} {months[date.getMonth()]}{' '}
-                          {date.getFullYear()}
-                        </p>
-                        <p></p>
+                        <div className="flex gap-1">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          <p>
+                            {date.getHours()}:{date.getMinutes()}
+                          </p>
+                        </div>
+                        <div className="flex gap-1">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
+                          </svg>
+                          <p>
+                            {date.getDay()} {months[date.getMonth()]}{' '}
+                            {date.getFullYear()}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>

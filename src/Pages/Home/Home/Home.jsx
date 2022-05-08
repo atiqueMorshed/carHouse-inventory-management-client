@@ -1,6 +1,7 @@
 import React from 'react';
 import Banner from '../Banner/Banner';
 import CarShowcase from '../CarShowcase/CarShowcase';
+import CarsSoldGraph from '../CarsSoldGraph/CarsSoldGraph';
 import LatestModifiedCars from '../LatestModifiedCars/LatestModifiedCars';
 
 const Home = () => {
@@ -11,6 +12,7 @@ const Home = () => {
         <Banner />
         <CarShowcase />
         <LatestModifiedCars />
+        <CarsSoldGraph />
       </div>
     </div>
   );

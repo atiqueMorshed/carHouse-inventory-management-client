@@ -1,10 +1,14 @@
 import { useMutation } from 'react-query';
 import axiosAuthBearer from '../api/axiosAuthBearer';
 
-const mutateData = async ({ url, postData }) => {
+const mutateData = async ({ url, postData, method = 'POST' }) => {
   if (url) {
     try {
-      const response = await axiosAuthBearer.post(url, { postData });
+      const response = await axiosAuthBearer({
+        method,
+        url,
+        data: { postData },
+      });
       return response.data;
     } catch (error) {
       throw new Error(

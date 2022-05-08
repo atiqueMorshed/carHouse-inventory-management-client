@@ -74,12 +74,15 @@ const ManageInventories = () => {
     return (
       <>
         <div className="my-32 min-h-[calc(100vh-360px)]">
-          <div className="flex flex-col justify-center gap-8 items-center mb-10">
-            <h1 className="text-4xl text-center">Manage Inventories</h1>
+          <div className="flex flex-col justify-center items-center mb-10">
+            <h1 className="text-4xl text-center mb-10">Manage Inventories</h1>
             <CustomLinkButton to="/addCar">Add New Car</CustomLinkButton>
           </div>
-          <p className="text-xs text-center md:hidden mb-3">
-            scroll left and right to see all columns
+          <p className="text-xs text-center md:hidden mb-2">
+            scroll left and right to see all columns.
+          </p>
+          <p className="text-xs text-center mb-2">
+            click on the names to go to inventory details.
           </p>
           <div className="max-w-[1300px] mx-auto shadow-lg overflow-x-auto dark:bg-darkGray-600 rounded">
             <table className="table-auto w-full text-sm text-left pointer-events-none">
