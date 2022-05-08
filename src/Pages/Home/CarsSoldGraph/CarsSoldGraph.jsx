@@ -56,10 +56,16 @@ const CarsSoldGraph = () => {
   if (isSuccess && data) {
     if (data?.length === 0) {
       return (
-        <div className="flex flex-col items-center justify-center text-white bg-[url('https://i.ibb.co/nQ9nSj1/audi-r8.jpg')] h-[70vh]">
-          <h1 className="text-2xl md:text-5xl text-center">No car found.</h1>
-          <div className="text-center text-2xl mt-8">
-            <Link className="underline hover:text-primaryBlue-400" to="/addCar">
+        <div className="my-32 flex flex-col items-center justify-center text-white">
+          <h1 className="text-2xl md:text-4xl text-center mb-8">
+            Car Sales Information
+          </h1>
+          <div className="text-center text-gray-600">
+            No car is available.{' '}
+            <Link
+              className="underline text-gray-500 hover:text-primaryBlue-500"
+              to="/addCar"
+            >
               Add Now
             </Link>
           </div>

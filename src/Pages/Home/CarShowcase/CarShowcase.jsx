@@ -27,8 +27,10 @@ const CarShowcase = () => {
   if (isSuccess && data) {
     if (data?.length === 0) {
       return (
-        <div className="mt-36 flex flex-col items-center">
-          <h1 className="text-4xl text-center mb-14">Car Showcase</h1>
+        <div className="my-36 flex flex-col items-center">
+          <h1 className="text-2xl md:text-4xl text-center mb-14">
+            Car Showcase
+          </h1>
           <div className="text-center text-gray-600">
             No car is available.{' '}
             <Link
