@@ -2,13 +2,6 @@
 
 > CarHouse is an inventory management website. It lets you add your cars to the inventory items. Whenever a car is delivered, you can update the infomation by clicking on the delivered button on the car page. That'll update the quantity and sold fields accordingly. You can also restock your inventory by a set amount in that page. You can also see car sales information in the homepage.
 
-.
-
-> [frontend](https://carhouse-warehouse-management.web.app/)
-> or https://carhouse-warehouse-management.web.app/
->
-> [backend](https://carhouse-backend.herokuapp.com/)
-> or https://carhouse-backend.herokuapp.com/
 
 ## Features
 
